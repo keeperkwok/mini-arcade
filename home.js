@@ -76,6 +76,30 @@ const GAMES = [
     tags: ['益智', '消除'],
     href: 'match3/index.html',
   },
+  {
+    id: 'sudoku',
+    emoji: '🧮',
+    name: '数独',
+    desc: '五档难度、题题唯一解:铅笔笔记、提示、无限撤销,还能关掉页面接着下。',
+    tags: ['益智', '数字'],
+    href: 'sudoku/index.html',
+  },
+  {
+    id: 'xigua',
+    emoji: '🍈',
+    name: '合成大西瓜',
+    desc: '手写圆形物理:同果相碰合成更大一颗,连锁爆分,堆过危险线就输。',
+    tags: ['休闲', '物理'],
+    href: 'xigua/index.html',
+  },
+  {
+    id: 'luosi',
+    emoji: '🔩',
+    name: '拧螺丝',
+    desc: '多层板材拆解:被上层压住的螺丝拧不动,同色凑满 3 颗销毁,7 格塞满即败。',
+    tags: ['益智', '解压'],
+    href: 'luosi/index.html',
+  },
 ];
 
 const grid = document.getElementById('games');

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>数独 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🧮</a>
+    <div class="title">
+      <h1>数独</h1>
+      <p class="sub">SUDOKU · 逻辑填数</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="生成新题" aria-label="生成新题">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="easy">入门</button>
+    <button data-diff="medium">简单</button>
+    <button data-diff="hard">中等</button>
+    <button data-diff="expert">困难</button>
+    <button data-diff="master">专家</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">用时</span><span class="value" id="time">0:00</span></div>
+    <div class="chip"><span class="label">错误</span><span class="value" id="mistakes">0</span></div>
+    <div class="chip"><span class="label">最佳用时</span><span class="value" id="best">--</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <div class="board" id="board" aria-label="数独盘面"></div>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="pad" aria-label="数字键盘">
+    <div class="digits" id="digits"></div>
+    <div class="tools">
+      <button class="tool" id="btnUndo" title="撤销 (U)">↶<span>撤销</span></button>
+      <button class="tool" id="btnNote" title="笔记模式 (N)">✎<span>笔记</span></button>
+      <button class="tool" id="btnErase" title="擦除 (Delete)">⌫<span>擦除</span></button>
+      <button class="tool" id="btnHint" title="提示 (H)">💡<span>提示</span></button>
+    </div>
+  </section>
+
+  <footer class="tips">
+    <p>🖱️ 点格子选中 → 点数字填入 · <kbd>N</kbd> 笔记 · <kbd>U</kbd> 撤销 · <kbd>H</kbd> 提示 · <kbd>⌫</kbd> 擦除 · 方向键移动</p>
+    <p>📱 手机:长按格子选中并进入笔记模式 · 再点一次同格可擦除 · 刷新页面可续玩未完局</p>
+  </footer>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>

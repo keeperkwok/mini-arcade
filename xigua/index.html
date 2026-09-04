@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>合成大西瓜 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍈</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🍈</a>
+    <div class="title">
+      <h1>合成大西瓜</h1>
+      <p class="sub">SUPER FRUIT · 物理合成</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnPause" class="icon-btn" title="暂停 / 继续 (P)" aria-label="暂停或继续">⏸</button>
+      <button id="btnRestart" class="icon-btn" title="重新开始" aria-label="重新开始">↻</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="chip"><span class="label">得分</span><span class="value" id="score">0</span></div>
+    <div class="chip"><span class="label">最高分</span><span class="value" id="best">0</span></div>
+    <div class="chip"><span class="label">下一颗</span><span class="value" id="next">🍒</span></div>
+    <div class="chip"><span class="label">最大水果</span><span class="value" id="stage">🍒</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap" id="boardWrap">
+      <canvas id="stage-canvas" aria-label="水果堆"></canvas>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <footer class="tips">
+    <p>🖱️ 移动鼠标选位、点击投下 · 相同水果相撞即合成更大一颗</p>
+    <p>⌨️ <kbd>←</kbd><kbd>→</kbd> 移动 · <kbd>空格</kbd> 投下 · <kbd>P</kbd> 暂停 · 📱 手指拖动后松开</p>
+    <p>⚠️ 水果堆过顶部的 <span class="warn">危险线</span> 并停留就会结束,合成大西瓜 🍉 冲击高分!</p>
+  </footer>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>
