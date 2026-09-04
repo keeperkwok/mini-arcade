@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>纸牌接龙 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🃏</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🃏</a>
+    <div class="title">
+      <h1>纸牌接龙</h1>
+      <p class="sub">KLONDIKE SOLITAIRE</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnHint" class="icon-btn" title="提示一步 (H)" aria-label="提示">💡</button>
+      <button id="btnUndo" class="icon-btn" title="撤销 (Z)" aria-label="撤销">↶</button>
+      <button id="btnAuto" class="icon-btn auto" title="自动收牌" aria-label="自动收牌">🪄</button>
+      <button id="btnNew" class="icon-btn" title="新游戏 (N)" aria-label="新游戏">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="mode" aria-label="难度选择">
+    <button data-draw="1">新手 一次翻 1 张</button>
+    <button data-draw="3">经典 一次翻 3 张</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">得分</span><span class="value" id="score">0</span></div>
+    <div class="chip"><span class="label">用时</span><span class="value" id="time">0:00</span></div>
+    <div class="chip"><span class="label">最高分</span><span class="value" id="best">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap" id="boardWrap">
+      <div class="board" id="board"><div class="layer" id="layer"></div></div>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <footer class="tips">
+    <p>🖱️ 拖动纸牌 · 双击快速送入顶牌区 · 点左上牌堆翻牌，牌堆翻完可点击回收重来</p>
+    <p>📱 手机：先点一张牌，再点目标位置即可移动 · <b class="gold">桌面</b>红黑相间降序，<b class="gold">顶牌区</b>同花色 A→K</p>
+  </footer>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>

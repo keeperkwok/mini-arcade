@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>魂斗罗 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🪖</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🪖</a>
+    <div class="title">
+      <h1>魂斗罗</h1>
+      <p class="sub">CONTRA · 横版突击</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnPause" class="icon-btn" title="暂停 / 继续" aria-label="暂停或继续">⏸</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="chip"><span class="label">得分</span><span class="value" id="score">0</span></div>
+    <div class="chip"><span class="label">最高纪录</span><span class="value" id="best">0</span></div>
+    <div class="chip"><span class="label">关卡</span><span class="value" id="stage">1</span></div>
+    <div class="chip"><span class="label">生命</span><span class="value" id="lives">3</span></div>
+  </section>
+
+  <section class="board-wrap" id="boardWrap">
+    <canvas id="board"></canvas>
+    <div class="touch" id="touch" hidden>
+      <div class="pad">
+        <button class="tbtn up" data-k="up" aria-label="上">▲</button>
+        <button class="tbtn left" data-k="left" aria-label="左">◀</button>
+        <button class="tbtn down" data-k="down" aria-label="下">▼</button>
+        <button class="tbtn right" data-k="right" aria-label="右">▶</button>
+      </div>
+      <div class="acts">
+        <button class="tbtn act jump" data-k="jump" aria-label="跳跃">跳</button>
+        <button class="tbtn act shoot" data-k="shoot" aria-label="射击">射击</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="tips">
+    <p>⌨️ ←→ / AD 移动 · ↑ 朝上射击 · ↓ 卧倒 / 空中朝下 · <kbd>空格</kbd> 跳跃 · <kbd>J</kbd> 射击(按住连发)</p>
+    <p>💊 击落飞行胶囊获得武器:<b class="gold">M=机枪</b> S=散射 L=激光 · 一击即死,掉坑也会阵亡 · <kbd>P</kbd> 暂停 <kbd>M</kbd> 静音</p>
+    <p>🕹️ 传说秘籍:标题画面输入 <b class="gold">↑↑↓↓←→←→BA</b> · 📱 触屏使用虚拟按键</p>
+  </footer>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>

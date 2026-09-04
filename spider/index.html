@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>蜘蛛纸牌 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕷️</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🕷️</a>
+    <div class="title">
+      <h1>蜘蛛纸牌</h1>
+      <p class="sub">SPIDER SOLITAIRE</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnHint" class="icon-btn" title="提示一步 (H)" aria-label="提示">💡</button>
+      <button id="btnUndo" class="icon-btn" title="撤销 (Z)" aria-label="撤销">↶</button>
+      <button id="btnNew" class="icon-btn" title="新游戏 (N)" aria-label="新游戏">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="mode" aria-label="难度选择">
+    <button data-suits="1">入门 单花色</button>
+    <button data-suits="2">简单 双花色</button>
+    <button data-suits="4">进阶 四花色</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">得分</span><span class="value" id="score">500</span></div>
+    <div class="chip"><span class="label">用时</span><span class="value" id="time">0:00</span></div>
+    <div class="chip"><span class="label">最高分</span><span class="value" id="best">500</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap" id="boardWrap">
+      <div class="board" id="board"><div class="layer" id="layer"></div></div>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <footer class="tips">
+    <p>🖱️ 拖动纸牌 · 双击自动找位置 · 点右下角牌堆发牌（<b class="gold">有列空着时不能发牌</b>）</p>
+    <p>📱 手机：点一张牌，再点目标列 · 只能把<b class="gold">同花色降序连牌</b>整体搬动，凑齐 K→A 同花色即收走一组</p>
+  </footer>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>

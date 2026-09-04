@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>俄罗斯方块 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧱</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🧱</a>
+    <div class="title">
+      <h1>俄罗斯方块</h1>
+      <p class="sub">TETRIS · 经典街机</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnPause" class="icon-btn" title="暂停 / 继续" aria-label="暂停或继续">⏸</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="chip"><span class="label">得分</span><span class="value" id="score">0</span></div>
+    <div class="chip"><span class="label">最高纪录</span><span class="value" id="best">0</span></div>
+    <div class="chip"><span class="label">等级</span><span class="value" id="level">1</span></div>
+    <div class="chip"><span class="label">消行</span><span class="value" id="lines">0</span></div>
+  </section>
+
+  <section class="game-area">
+    <aside class="side">
+      <div class="panel">
+        <span class="panel-label">暂存 <kbd>C</kbd></span>
+        <canvas id="hold"></canvas>
+      </div>
+      <div class="panel">
+        <span class="panel-label">下一个</span>
+        <canvas id="next"></canvas>
+      </div>
+    </aside>
+    <div class="board-wrap">
+      <canvas id="board"></canvas>
+      <div id="overlay" class="overlay show"><div id="overlayContent" class="overlay-content"></div></div>
+    </div>
+  </section>
+
+  <section class="tpad" id="tpad" aria-label="触屏操作">
+    <div class="tpad-row">
+      <button data-act="hold" aria-label="暂存方块">⇄</button>
+      <button data-act="left" aria-label="左移">◀</button>
+      <button data-act="down" aria-label="加速下落">▼</button>
+      <button data-act="right" aria-label="右移">▶</button>
+      <button data-act="rotate" aria-label="旋转">⟳</button>
+    </div>
+    <button data-act="drop" class="drop-btn" aria-label="直接落下">⤓ 直接落下</button>
+  </section>
+
+  <footer class="tips">
+    <p>⌨️ ← → 移动 · ↑ 旋转 · ↓ 加速 · <kbd>空格</kbd> 直落 · <kbd>C</kbd> 暂存 · <kbd>P</kbd> 暂停</p>
+    <p>📱 触屏:棋盘上拖动移动、点按旋转、快速下滑直接落下</p>
+  </footer>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>

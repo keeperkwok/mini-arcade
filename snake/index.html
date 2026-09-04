@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>贪吃蛇 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🐍</a>
+    <div class="title">
+      <h1>贪吃蛇</h1>
+      <p class="sub">SNAKE · 经典街机</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnPause" class="icon-btn" title="暂停 / 继续" aria-label="暂停或继续">⏸</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="chip"><span class="label">得分</span><span class="value" id="score">0</span></div>
+    <div class="chip"><span class="label">最高纪录</span><span class="value" id="best">0</span></div>
+    <div class="chip"><span class="label">速度</span><span class="value" id="level">1</span></div>
+  </section>
+
+  <section class="board-wrap">
+    <canvas id="board"></canvas>
+    <div id="overlay" class="overlay show"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="dpad" id="dpad" aria-label="方向控制">
+    <button data-dir="up" class="up" aria-label="上">▲</button>
+    <button data-dir="left" class="left" aria-label="左">◀</button>
+    <button data-dir="down" class="down" aria-label="下">▼</button>
+    <button data-dir="right" class="right" aria-label="右">▶</button>
+  </section>
+
+  <footer class="tips">
+    <p>⌨️ 方向键 / WASD 移动 · <kbd>空格</kbd> 开始 / 暂停 · 📱 手机滑动屏幕操作</p>
+    <p>🍎 苹果 +1 分，每吃 4 个提速 · <b class="gold">✨ 金色星星 +5 分</b>（限时出现，抓紧！）</p>
+  </footer>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>

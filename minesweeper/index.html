@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>扫雷 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💣</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">💣</a>
+    <div class="title">
+      <h1>扫雷</h1>
+      <p class="sub">MINESWEEPER · 逻辑推理</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnFlag" class="icon-btn" title="插旗模式(按 F 切换)" aria-label="插旗模式">🚩</button>
+      <button id="btnRestart" class="icon-btn" title="重新开始" aria-label="重新开始">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="beginner">初级 9×9</button>
+    <button data-diff="intermediate">中级 16×16</button>
+    <button data-diff="expert">高级 16×30</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">剩余雷数</span><span class="value" id="minesLeft">10</span></div>
+    <div class="chip"><span class="label">用时</span><span class="value" id="time">0</span></div>
+    <div class="chip"><span class="label">最佳时间</span><span class="value" id="bestTime">--</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <div class="board" id="board"></div>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <footer class="tips">
+    <p>🖱️ 左键翻开 · 右键插旗 · 点击已翻开的数字可快速翻开周围(旗数需匹配)</p>
+    <p>📱 手机:点按翻开 · 长按插旗 · 或点右上 🚩 进入插旗模式 · <kbd>F</kbd> 切换</p>
+  </footer>
+</main>
+
+<script src="game.js"></script>
+</body>
+</html>
