@@ -72,6 +72,30 @@ function checkStructure() {
     expect(/<title>[^<]+<\/title>/.test(html), d + ' 有 <title>', d + ' 缺少 <title>');
     expect(/<html lang=/.test(html), d + ' 声明 lang', d + ' 缺少 lang 属性');
   }
+  // macOS 文件系统大小写不敏感，但 GitHub Pages(Linux) 敏感：本地能跑、线上 404 的经典坑
+  let caseBad = 0;
+  for (const d of dirs) {
+    const htmlDir = path.join(ROOT, d);
+    const html = fs.readFileSync(path.join(htmlDir, 'index.html'), 'utf8');
+    for (const a of [...html.matchAll(/(?:src|href)="([^"]+)"/g)].map((m) => m[1])) {
+      if (/^data:|^#|^mailto:|^https?:\/\//i.test(a)) continue;
+      const target = path.resolve(htmlDir, a.split('#')[0].split('?')[0]);
+      if (!fs.existsSync(target)) continue;
+      if (fs.realpathSync(target) !== target) { fail(d + ' 引用大小写与真实文件名不符(线上会 404): ' + a); caseBad++; }
+    }
+  }
+  if (!caseBad) ok('引用路径大小写与真实文件名一致(Pages 是 Linux 大小写敏感)');
+  // Pages 默认用 Jekyll 处理，{{ }} / {% %} 会被当模板语法吃掉
+  const liquid = [];
+  (function walk(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const pth = path.join(dir, e.name);
+      if (e.isDirectory()) { if (!e.name.startsWith('.') && !SKIP_DIRS.has(e.name)) walk(pth); }
+      else if (/\.(html|css|js)$/.test(e.name) && /\{\{|%\}/.test(fs.readFileSync(pth, 'utf8'))) liquid.push(rel(pth));
+    }
+  })(ROOT);
+  expect(liquid.length === 0, '无 Jekyll 模板冲突写法', '这些文件含 {{ 或 %}，需要 .nojekyll: ' + liquid.join(', '));
+  expect(exists('.nojekyll'), '已放置 .nojekyll(跳过 Jekyll 处理)', '建议添加 .nojekyll，Pages 直接原样发布静态文件');
   if (!remote) ok('无远程依赖 · 全部可离线运行');
   if (!missing) ok(dirs.length + ' 个游戏目录结构完整');
   expect(exists('index.html') && exists('home.css') && exists('home.js'), '首页三件套齐全', '首页文件缺失');
