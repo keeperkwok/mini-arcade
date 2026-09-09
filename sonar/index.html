@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>声纳扫雷 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 500px; --board-ratio: 1 / 1">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">📡</a>
+    <div class="title">
+      <h1>声纳扫雷</h1>
+      <p class="sub">SONAR · 听声辨位</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重新开局" aria-label="重新开局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="海域选择">
+    <button data-diff="easy">近海 10×10</button>
+    <button data-diff="medium">海峡 14×14</button>
+    <button data-diff="hard">深海 18×18</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">已扫清</span><span class="value info" id="clear">0</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value good" id="score">0</span></div>
+    <div class="chip"><span class="label">最佳分</span><span class="value warn" id="best">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <canvas id="cv" aria-label="声纳海面"></canvas>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="tools" aria-label="工具">
+    <button class="tool on" id="btnPing" title="声纳 (1)">🔊<span>声纳</span></button>
+    <button class="tool" id="btnProbe" title="确认 (2)">✅<span>确认</span></button>
+    <button class="tool" id="btnFlag" title="插旗 (3)">🚩<span>插旗</span></button>
+  </section>
+
+  <div class="sonarbar">
+    <span class="sonartxt">声纳 <b id="pips">●●●●●</b></span>
+    <span class="sonartxt">充能 <i class="bar"><u id="charge"></u></i></span>
+    <span class="sonartxt">用时 <b id="time">0:00</b></span>
+    <span class="sonartxt" id="multbox"></span>
+  </div>
+
+  <footer class="tips">
+    <p>🔊 <b>声纳</b>免费但会消散：波纹扫过的格子只亮一下，全凭记忆</p>
+    <p>✅ <b>确认</b>永久点亮(碰到雷就完蛋) · 🚩 标记全部水雷也能通关 · <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> 切工具 · <kbd>右键</kbd>直接插旗</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

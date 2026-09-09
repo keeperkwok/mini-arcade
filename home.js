@@ -89,6 +89,21 @@ const GAMES = [
     totals: () => [num('klondike.best.1'), num('klondike.best.3')],
   },
   {
+    id: 'sonar',
+    emoji: '📡',
+    name: '声纳扫雷',
+    desc: '全黑海域靠声纳听位：波纹扫过的格子只亮 1.5 秒，确认才能永久点亮。',
+    tags: ['益智', '记忆'],
+    href: 'sonar/index.html',
+    prefix: 'sonar.',
+    records: () => [timeRec([
+      { key: 'sonar.best.easy', name: '近海' },
+      { key: 'sonar.best.medium', name: '海峡' },
+      { key: 'sonar.best.hard', name: '深海' },
+    ]), scoreRec('sonar.best', '分')],
+    totals: () => [num('sonar.best')],
+  },
+  {
     id: 'spider',
     emoji: '🕷️',
     name: '蜘蛛纸牌',
@@ -140,6 +155,31 @@ const GAMES = [
     },
   },
   {
+    id: 'kenken',
+    emoji: '➗',
+    name: '算独',
+    desc: '带运算的数独：每行每列不重复，粗线笼里的数字要能凑出目标数与运算。',
+    tags: ['益智', '数字'],
+    href: 'kenken/index.html',
+    prefix: 'kenken.',
+    records: () => [timeRec([
+      { key: 'kenken.best.easy', name: '四宫' },
+      { key: 'kenken.best.medium', name: '五宫' },
+      { key: 'kenken.best.hard', name: '六宫' },
+      { key: 'kenken.best.expert', name: '六宫·难' },
+    ])],
+    resume: () => {
+      const s = json('kenken.save');
+      if (!s || !Array.isArray(s.values) || !Array.isArray(s.cages) || !s.cages.length) return null;
+      const givens = s.cages.filter((c) => typeof c === 'string' && c.indexOf('=|') === 0).length;
+      const blank = s.values.length - givens;
+      const filled = s.values.filter((v) => v > 0).length - givens;
+      if (!(filled > 0) || !(blank > 0) || filled >= blank) return null;
+      const names = { easy: '四宫', medium: '五宫', hard: '六宫', expert: '六宫·难' };
+      return '继续未完局 · ' + (names[s.diff] || '算独') + ' · 已填 ' + filled + '/' + blank + ' · ' + fmtTime(s.seconds || 0);
+    },
+  },
+  {
     id: 'xigua',
     emoji: '🍈',
     name: '合成大西瓜',
@@ -149,6 +189,17 @@ const GAMES = [
     prefix: 'xigua.',
     records: () => [scoreRec('xigua.best', '分')],
     totals: () => [num('xigua.best')],
+  },
+  {
+    id: 'plinko',
+    emoji: '🎰',
+    name: '幸运弹珠台',
+    desc: '弹珠 + Roguelike：撞钉攒分、外侧槽翻倍，每轮三选一强化滚雪球。',
+    tags: ['休闲', '构筑', '物理'],
+    href: 'plinko/index.html',
+    prefix: 'plinko.',
+    records: () => [roundRec('plinko.round', '最远撑到第'), scoreRec('plinko.best', '分')],
+    totals: () => [num('plinko.best')],
   },
   {
     id: 'luosi',
@@ -206,11 +257,16 @@ function levelRec(key, label) {
   if (v <= 1) return null;
   return { tone: 'amber', text: '🚩 ' + label + ' ' + v + ' 关' };
 }
+function roundRec(key, label) {
+  const v = num(key);
+  if (v <= 1) return null;
+  return { tone: 'amber', text: '🚩 ' + label + ' ' + v + ' 轮' };
+}
 
 // 是否玩过:碰过任意纪录/设置键即算,但只点过静音不算
 function isPlayed(g) {
   if (!g.prefix) return false;
-  return Object.keys(store).some((k) => k.indexOf(g.prefix) === 0 && k.slice(-7) !== '.muted');
+  return Object.keys(store).some((k) => k.indexOf(g.prefix) === 0 && k.slice(-6) !== '.muted');
 }
 
 function computeViews() {

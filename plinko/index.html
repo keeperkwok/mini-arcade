@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>幸运弹珠台 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎰</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 480px; --board-ratio: 460 / 620">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🎰</a>
+    <div class="title">
+      <h1>幸运弹珠台</h1>
+      <p class="sub">LUCKY PEGGLE · 弹珠构筑</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重新开始" aria-label="重新开始">↻</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="chip"><span class="label">本轮 / 目标</span><span class="value info" id="round">0/60</span></div>
+    <div class="chip"><span class="label">第几轮</span><span class="value" id="turn">1</span></div>
+    <div class="chip"><span class="label">总分</span><span class="value good" id="score">0</span></div>
+  </section>
+
+  <div class="goalbar"><i class="goal"><u id="goal"></u></i><span class="left" id="ballsLeft">球 ×3</span></div>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <canvas id="cv" aria-label="弹珠台"></canvas>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnAimL" title="向左瞄准 (←)">⟲<span>左移</span></button>
+    <button class="tool fire" id="btnFire" title="发射 (空格)">🎯<span>发射</span></button>
+    <button class="tool" id="btnAimR" title="向右瞄准 (→)">⟳<span>右移</span></button>
+  </section>
+
+  <footer class="tips">
+    <p>🖱️ 在盘面上下滑拖动瞄准、松手发射 · <kbd>←</kbd><kbd>→</kbd> 微调 · <kbd>空格</kbd>发射</p>
+    <p>每轮打满球后结算：达到目标分就能<b>三选一</b>强化，越滚越大；没达到就结束</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

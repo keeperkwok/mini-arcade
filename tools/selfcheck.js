@@ -123,10 +123,13 @@ function storageKeys(dir) {
   const dirPath = path.join(ROOT, dir);
   for (const f of fs.readdirSync(dirPath).filter((x) => x.endsWith('.js'))) {
     const src = fs.readFileSync(path.join(dirPath, f), 'utf8');
-    for (const m of src.matchAll(/localStorage\.(?:get|set|remove)Item\(\s*'([^']*)'/g)) keys.add(m[1]);
+    // 直接调用，或经包装函数 store.get/set/del 与 Sfx 的 storageKey
+    const callRe = /(?:localStorage\.(?:get|set|remove)Item|store\.(?:get|set|del)|setItem|getItem)\(\s*'([^']*)'/g;
+    for (const m of src.matchAll(callRe)) keys.add(m[1]);
     for (const m of src.matchAll(/localStorage\.(?:get|set|remove)Item\(\s*`([^'$]*)\$\{/g)) keys.add(m[1]);
-    // 形如 function bestKey() { return 'klondike.best.' + drawCount; }
-    for (const m of src.matchAll(/return\s+'([a-zA-Z0-9_.-]*\.)'\s*\+/g)) keys.add(m[1]);
+    for (const m of src.matchAll(/storageKey:\s*'([^']*)'/g)) keys.add(m[1]);
+    // 动态键：形如 return 'klondike.best.' + drawCount / => 'sudoku.best.' + diff
+    for (const m of src.matchAll(/(?:return|=>)\s*'([a-zA-Z0-9_.-]*\.)'\s*\+/g)) keys.add(m[1]);
   }
   return [...keys];
 }
@@ -174,7 +177,7 @@ function checkRegistry() {
     if (!g.prefix) continue;
     for (const k of storageKeys(g.href.split('/')[0])) {
       if (k.endsWith('.')) { for (const s of suffixes) seed[k + s] = '1234'; }
-      else if (k.slice(-7) !== '.muted') seed[k] = '1234';
+      else if (k.slice(-6) !== '.muted') seed[k] = '1234';
     }
   }
   return [{ games, seed }];
@@ -241,6 +244,18 @@ function checkPortal(extra) {
   expect(count(grid.innerHTML) === games.length, '空存储渲染 ' + games.length + ' 张卡片', '空存储卡片数 ' + count(grid.innerHTML) + ' ≠ ' + games.length);
   expect(!/class="tick"/.test(grid.innerHTML), '空存储时没有已玩标记', '空存储却出现了已玩标记');
   expect(/还没玩过/.test(grid.innerHTML), '空存储显示未玩占位文案', '缺少未玩占位文案');
+
+  // 只点过静音键：不该算已玩，也不该计入统计
+  const domM = makeDom(html);
+  const muteOnly = {};
+  for (const g of games) if (g.prefix) muteOnly[g.prefix + 'muted'] = '1';
+  try {
+    runHome(domM, makeStorage(muteOnly));
+    expect(!/class="tick"/.test(domM.registry.get('games').innerHTML)
+      && /<b>0<small>\/\d+<\/small><\/b>/.test(domM.registry.get('hud').innerHTML),
+      '只点过静音的 ' + Object.keys(muteOnly).length + ' 个游戏都不算已玩',
+      '静音键被误判成游戏纪录，首页会把它标成已玩');
+  } catch (e) { fail('静音判定检查时 home.js 抛异常: ' + e.message); return; }
 
   // 有纪录
   const dom2 = makeDom(html);

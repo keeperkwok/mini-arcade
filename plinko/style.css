@@ -1,0 +1,47 @@
+/* 幸运弹珠台专属样式：目标进度条、选卡面板（骨架来自 ../shared/base.css） */
+canvas { cursor: crosshair; touch-action: none; }
+
+.goalbar { display: flex; align-items: center; gap: 10px; }
+.goal {
+  flex: 1; height: 8px; border-radius: 999px; overflow: hidden;
+  background: rgba(148, 163, 184, 0.16);
+  border: 1px solid var(--line);
+}
+.goal u {
+  display: block; height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--emerald));
+  transition: width 0.18s ease;
+}
+.left { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+.tools { grid-template-columns: repeat(3, 1fr); }
+.tool.fire { font-size: 20px; }
+.tool.fire b { color: var(--emerald); }
+
+#round { color: var(--cyan); }
+#turn { color: var(--text); }
+#score { color: var(--emerald); }
+
+/* 三选一强化卡 */
+.cards { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%; }
+.pcard {
+  flex: 1 1 120px; max-width: 150px;
+  font: inherit; text-align: left; cursor: pointer;
+  padding: 12px 12px 13px;
+  border-radius: 16px;
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(52, 211, 153, 0.12), rgba(15, 23, 42, 0.6));
+  border: 1px solid rgba(52, 211, 153, 0.34);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.pcard:hover { transform: translateY(-3px); border-color: rgba(52, 211, 153, 0.7); box-shadow: 0 14px 30px rgba(2, 6, 23, 0.5); }
+.pcard .ce { font-size: 24px; display: block; margin-bottom: 5px; }
+.pcard .cn { font-size: 14px; font-weight: 700; display: block; }
+.pcard .cd { font-size: 11.5px; color: var(--muted); line-height: 1.5; display: block; margin-top: 3px; }
+.pcard.rare { background: linear-gradient(180deg, rgba(251, 191, 36, 0.16), rgba(15, 23, 42, 0.6)); border-color: rgba(251, 191, 36, 0.45); }
+.pcard.rare .cn { color: var(--amber); }
+
+.legend { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; font-size: 11px; color: var(--muted); }
+.legend i { font-style: normal; }
+.legend .g { color: #cbd5e1; } .legend .y { color: var(--amber); }
+.legend .b { color: var(--cyan); } .legend .p { color: #c4b5fd; } .legend .r { color: #fca5a5; }

@@ -1,0 +1,28 @@
+/* 声纳扫雷专属样式：声纳条与工具高亮（骨架来自 ../shared/base.css） */
+.tools { grid-template-columns: repeat(3, 1fr); }
+.tool.on {
+  border-color: rgba(34, 211, 238, 0.55);
+  background: linear-gradient(180deg, rgba(34, 211, 238, 0.18), rgba(34, 211, 238, 0.06));
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.25) inset;
+}
+.tool.on span { color: var(--cyan); }
+
+canvas { cursor: crosshair; touch-action: none; }
+
+.sonarbar {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 9px 14px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+}
+.sonartxt { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.sonartxt b { color: var(--cyan); letter-spacing: 2px; font-size: 12px; }
+.bar { width: 54px; height: 6px; border-radius: 999px; background: rgba(148, 163, 184, 0.18); overflow: hidden; display: inline-block; }
+.bar u { display: block; height: 100%; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--emerald)); transition: width 0.12s linear; }
+#multbox { margin-left: auto; color: var(--amber); font-weight: 700; font-size: 13px; }
+
+#clear { color: var(--cyan); }
+#score { color: var(--emerald); }
+#best { color: var(--amber); }
