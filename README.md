@@ -8,6 +8,11 @@
 .
 ├── index.html        # 门户首页(游戏列表)
 ├── home.css / home.js# 首页样式与游戏注册表
+├── shared/           # 共享层(只给新游戏用，老游戏保留各自副本)
+│   ├── base.css      # 设计变量 + 页面骨架 + 遮罩/按钮/统计条等通用组件
+│   └── sfx.js        # WebAudio 音效封装 Sfx.create()
+├── tools/
+│   └── selfcheck.js  # 零依赖自检：node tools/selfcheck.js
 ├── README.md
 ├── snake/            # 贪吃蛇
 │   ├── index.html
@@ -79,7 +84,8 @@
 首页会自动读取各游戏写在 `localStorage` 里的纪录,不需要任何后端:
 
 - **统计条** —— 玩过 N/12、累计最高分、纪录条数;蜘蛛纸牌已扣除 500 起步分,只有真正超过起步分才计入
-- **筛选** —— 全部 / 已玩 / 没玩过 + 标签(经典、益智、射击、纸牌、消除、休闲、物理、解压、数字),带数量角标
+- **筛选** —— 全部 / 已玩 / 没玩过 + 标签(经典、益智、射击、纸牌、消除、休闲、物理、解压、数字),带数量角标;筛选栏滚动时吸顶
+- **多列卡片** —— 竖排紧凑卡片,桌面 4 列 / 平板 2-3 列 / 手机 2 列,12 个游戏三屏内看完
 - **卡片纪录** —— 每张小卡片上直接显示最高分 / 最佳用时 / 已通关卡,玩过的游戏打上 ✓ 标记
 - **继续未完局** —— 数独存在未通关存档时,顶部出现一枚「继续未完局 · 难度 · 已填 30/81 · 用时」快捷入口
 - **清空纪录** —— 一键清掉本机所有纪录与设置(会二次确认),只删 `localStorage`,不动任何游戏文件
@@ -88,11 +94,28 @@
 
 ## 新增一个游戏
 
-1. 在项目根目录新建文件夹（如 `2048/`），放入该游戏的 `index.html` 等文件；
-2. 在 `home.js` 的 `GAMES` 数组中添加一条记录（`href` 指向新文件夹），首页卡片即自动出现；
-3. 想让它进统计条与筛选，再补上 `prefix`（该游戏的 `localStorage` 键前缀）与 `records()`（返回要在卡片上展示的纪录），`totals()` 可选。
+1. 在项目根目录新建文件夹（如 `dino/`），放 `index.html` + `style.css` + `game.js`；
+2. `index.html` 里先引 `../shared/base.css`，再引自己的 `style.css`（只写差异），音效用 `../shared/sfx.js`：
+   ```html
+   <link rel="stylesheet" href="../shared/base.css">
+   <link rel="stylesheet" href="style.css">
+   <script src="../shared/sfx.js"></script>
+   <script src="game.js"></script>
+   ```
+   可用主题变量：`--accent` / `--accent-2`（渐变主色）、`--app-width`（正文宽度）、`--board-ratio`（画布宽高比）；
+3. 在 `home.js` 的 `GAMES` 数组中登记一条（`id`/`emoji`/`name`/`desc`/`tags`/`href`），首页卡片即自动出现；
+4. 补上 `prefix`（该游戏的 `localStorage` 键前缀）与 `records()`（卡片上展示的纪录），`totals()` 可选，否则首页统计与「已玩」识别会漏掉它；
+5. 跑一遍 `node tools/selfcheck.js`，全绿再提交。
 
-每个游戏完全自包含（不依赖外部库），保持“双击即玩”。
+每个游戏完全自包含（不依赖外部库、不联网），保持“双击即玩”。`shared/` 只是仓库内的本地文件，同样零构建。
+
+## 自检
+
+```
+node tools/selfcheck.js
+```
+
+85 项检查，覆盖六类：JS 语法、游戏目录结构与离线可用、`GAMES` 注册表与 `localStorage` 键是否对得上（键名打错会直接报错）、首页在 DOM 桩里能否正常渲染（空纪录 / 有纪录 / 存储被禁三种状态 + 筛选交互）、共享层可用性、以及仓库体积概览。纯静态分析 + `vm` 沙箱执行，不需要浏览器。
 
 ## 本地运行
 

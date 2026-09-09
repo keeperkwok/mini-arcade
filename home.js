@@ -253,14 +253,16 @@ function renderCards() {
   emptyEl.hidden = shown.length > 0;
   grid.innerHTML = shown.map(({ g, recs, played }, i) => {
     const tags = g.tags.map((t) => '<span>' + t + '</span>').join('');
-    const head = '<div class="card-emoji">' + g.emoji + '</div>' +
-      '<div class="card-body"><h3>' + g.name + (played ? '<i class="tick" title="本机已有纪录">✓</i>' : '') + '</h3>' +
-      '<p>' + g.desc + '</p>' + recHTML(recs) + '<div class="tags">' + tags + '</div></div>';
+    const head = '<div class="card-top">' +
+      '<span class="card-emoji">' + g.emoji + '</span>' +
+      '<h3>' + g.name + (played ? '<i class="tick" title="本机已有纪录">✓</i>' : '') + '</h3>' +
+      '<span class="card-cta" aria-hidden="true">▶</span>' +
+      '</div>';
+    const body = head + '<p>' + g.desc + '</p>' + recHTML(recs) + '<div class="tags">' + tags + '</div>';
     if (g.soon) {
-      return '<div class="card soon" style="--i:' + i + '" aria-disabled="true"><span class="badge">即将上线</span>' + head + '</div>';
+      return '<div class="card soon" style="--i:' + i + '" aria-disabled="true"><span class="badge">即将上线</span>' + body + '</div>';
     }
-    return '<a class="card' + (played ? ' played' : '') + '" style="--i:' + i + '" href="' + g.href + '">' +
-      head + '<div class="card-cta">▶</div></a>';
+    return '<a class="card' + (played ? ' played' : '') + '" style="--i:' + i + '" href="' + g.href + '">' + body + '</a>';
   }).join('');
 }
 
@@ -276,7 +278,8 @@ function renderHud() {
     '</div>';
   const pill = resume ? '<a class="pcontinue" href="' + resume.g.href + '"><i>▶</i>' + resume.resume + '</a>' : '';
   const clear = played ? '<button class="pclear" id="btnClearRecs" title="清除本机所有游戏纪录与设置(不影响游戏文件)">清空纪录</button>' : '';
-  const note = '<p class="pnote">纪录存于本机浏览器 · 与 ' + (location.protocol === 'file:' ? 'file:// 本地打开' : '当前站点') + ' 绑定,换域名或无痕窗口不互通</p>';
+  const origin = location.hostname || 'file:// 本地打开';
+  const note = '<p class="pnote">纪录只存在本机浏览器 · 当前来源 ' + origin + ' · 换域名/换设备/无痕窗口都不互通</p>';
   hud.innerHTML = stats + pill + clear + note;
   const btn = document.getElementById('btnClearRecs');
   if (btn) btn.addEventListener('click', clearRecords);
