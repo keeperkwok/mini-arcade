@@ -102,6 +102,10 @@ class Node {
   appendChild(c) { c.parentNode = this; this.children.push(c); if (c.id) this.ownerDocument._ids.set(c.id, c); return c; }
   removeChild(c) { this.children = this.children.filter((x) => x !== c); return c; }
   remove() { if (this.parentNode) this.parentNode.removeChild(this); }
+  setAttribute(k, v) { this.attrs[k] = String(v); if (k === 'id') this.id = String(v); }
+  getAttribute(k) { return k in this.attrs ? this.attrs[k] : null; }
+  hasAttribute(k) { return k in this.attrs; }
+  removeAttribute(k) { delete this.attrs[k]; }
   insertBefore(c) { return this.appendChild(c); }
   get firstChild() { return this.children[0] || null; }
   get lastChild() { return this.children[this.children.length - 1] || null; }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>保质期 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧺</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 500px; --board-ratio: 460 / 400">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🧺</a>
+    <div class="title">
+      <h1>保质期</h1>
+      <p class="sub">SHELF LIFE · 鲜度解谜</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重新开始" aria-label="重新开始">↻</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="chip"><span class="label">关卡</span><span class="value info" id="level">1</span></div>
+    <div class="chip"><span class="label">你的鲜度</span><span class="value bad" id="fresh">0</span></div>
+    <div class="chip"><span class="label">收货</span><span class="value" id="goods">0/0</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value good" id="score">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <canvas id="cv" aria-label="保质期关卡地图"></canvas>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnUndo" title="回退一回合，全场时钟一起倒回 (U)">↶<span>撤销 <b id="undoN">3</b></span></button>
+    <button class="tool" id="btnWait" title="原地等一回合（也会老一秒）">⏳<span>等待 <b>空格</b></span></button>
+    <button class="tool" id="btnPour" title="灌注模式：把自己 1 点鲜度倒给相邻物件">🫗<span>灌注 <b id="pourState">关</b></span></button>
+  </section>
+
+  <footer class="tips">
+    <p>🎯 目标是<b>活着走到 🚪</b>：🍎 是钱也是命，但它烂成 🦠 会<b>永久堵死</b>那一格</p>
+    <p>🥬 藤烂开=多一条路 · 🪵 板塌成洞=少一条路 · 🫗 灌注让相邻一格<b>这回合不衰减</b>，花掉你自己 1 点</p>
+    <p><kbd>方向键</kbd>走 <kbd>空格</kbd>等 <kbd>E</kbd>注面向格 <kbd>Shift+方向</kbd>注指定方向 <kbd>U</kbd>撤销 <kbd>R</kbd>重来 · 触屏可滑动或点格</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

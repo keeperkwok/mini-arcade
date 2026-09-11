@@ -212,6 +212,158 @@ const GAMES = [
     records: () => [levelRec('luosi.level', '最远到第'), scoreRec('luosi.best', '分')],
     totals: () => [num('luosi.best')],
   },
+  {
+    id: 'fanpai',
+    emoji: '🀄',
+    name: '翻牌堆',
+    desc: '多层牌墙一张压一张：被压住的看不见图案也拿不走，翻开才取得走。',
+    tags: ['益智', '消除'],
+    href: 'fanpai/index.html',
+    prefix: 'fanpai.',
+    records: () => [levelRec('fanpai.level', '最远到第'), scoreRec('fanpai.best', '分')],
+    totals: () => [num('fanpai.best')],
+  },
+  {
+    id: 'zuma',
+    emoji: '🐸',
+    name: '祖玛珠链',
+    desc: '珠子沿轨道往洞口爬：转炮台吐珠，同色三连即爆，消得越多顶得越回去。',
+    tags: ['经典', '消除'],
+    href: 'zuma/index.html',
+    prefix: 'zuma.',
+    records: () => [levelRec('zuma.level', '最远到第'), scoreRec('zuma.best', '分')],
+    totals: () => [num('zuma.best')],
+  },
+  {
+    id: 'nonogram',
+    emoji: '🧩',
+    name: '数织',
+    desc: '行首列首的数字就是线索：纯逻辑推出像素画，涂错当场提醒，还能接着上次的拼。',
+    tags: ['益智', '图形'],
+    href: 'nonogram/index.html',
+    prefix: 'nonogram.',
+    records: () => [timeRec([
+      { key: 'nonogram.best.easy', name: '5×5' },
+      { key: 'nonogram.best.medium', name: '10×10' },
+      { key: 'nonogram.best.hard', name: '15×15' },
+      { key: 'nonogram.best.expert', name: '20×20' },
+    ])],
+    resume: () => {
+      const s = json('nonogram.save');
+      if (!s || typeof s.sol !== 'string' || typeof s.cell !== 'string') return null;
+      if (s.cell.length !== s.sol.length) return null;
+      const need = s.sol.split('').filter((ch) => ch === '1').length;
+      const done = s.cell.split('').filter((ch) => ch === '1').length;
+      if (!need || !done || done >= need) return null;
+      const names = { easy: '5×5', medium: '10×10', hard: '15×15', expert: '20×20' };
+      return '继续未完局 · ' + (names[s.diff] || '数织') + ' · 已涂 ' + done + '/' + need + ' 格 · ' + fmtTime(s.seconds || 0);
+    },
+  },
+  {
+    id: 'cube',
+    emoji: '🧊',
+    name: '魔方',
+    desc: '没引 3D 库：贴纸逐块投影、剔背面、按远近排序画出来，按住贴纸拖就能转层。',
+    tags: ['益智', '空间'],
+    href: 'cube/index.html',
+    prefix: 'cube.',
+    records: () => [timeRec([
+      { key: 'cube.best.2', name: '二阶' },
+      { key: 'cube.best.3', name: '三阶' },
+      { key: 'cube.best.4', name: '四阶' },
+    ])],
+    resume: () => {
+      const s = json('cube.save');
+      if (!s || !Array.isArray(s.faces) || s.faces.length !== 6) return null;
+      const n = Number(s.size) || 0;
+      if (!(n >= 2 && n <= 4) || s.faces.some((row) => typeof row !== 'string' || row.length !== n * n)) return null;
+      const moved = Number(s.moves) || 0;
+      if (!moved) return null;
+      return '继续未完局 · ' + n + ' 阶魔方 · 已转 ' + moved + ' 步 · ' + fmtTime(s.seconds || 0);
+    },
+  },
+  {
+    id: 'wuziqi',
+    emoji: '⚫',
+    name: '五子棋',
+    desc: '15×15 木盘连成五子：三档 AI 会做棋也会堵，双人对战、悔棋提示、五连高亮。',
+    tags: ['对战', '棋类'],
+    href: 'wuziqi/index.html',
+    prefix: 'wuziqi.',
+    records: () => [scoreRec('wuziqi.wins', '胜'), scoreRec('wuziqi.streak', '连胜')],
+    totals: () => [num('wuziqi.wins')],
+    resume: () => {
+      const s = json('wuziqi.save');
+      if (!s || !Array.isArray(s.mv) || !s.mv.length) return null;
+      const names = { easy: '新手', mid: '棋友', hard: '高手' };
+      return '继续未完局 · 五子棋 · 已下 ' + s.mv.length + ' 手 · 轮到' +
+        (s.mv.length % 2 ? '白' : '黑') + (names[s.m] ? ' · vs ' + names[s.m] + ' AI' : ' · 双人对战');
+    },
+  },
+  {
+    id: 'xiangqi',
+    emoji: '🐉',
+    name: '中国象棋',
+    desc: '完整规则带应将：蹩马腿、塞象眼、隔山打炮、白脸将，中文记谱、三档 AI、可换边。',
+    tags: ['对战', '棋类'],
+    href: 'xiangqi/index.html',
+    prefix: 'xiangqi.',
+    records: () => [scoreRec('xiangqi.wins', '胜'), scoreRec('xiangqi.streak', '连胜')],
+    totals: () => [num('xiangqi.wins')],
+    resume: () => {
+      const s = json('xiangqi.save');
+      if (!s || typeof s.bd !== 'string' || s.bd.length !== 90) return null;
+      const plies = Array.isArray(s.mv) ? s.mv.length : 0;
+      if (!plies && !/[1-9]/.test(s.bd)) return null;
+      const names = { easy: '新手', mid: '棋友', hard: '高手' };
+      const who = names[s.m] ? (Number(s.s) === -1 ? '你执黑 · vs ' + names[s.m] + ' AI' : '你执红 · vs ' + names[s.m] + ' AI')
+        : '轮到' + (Number(s.t) === -1 ? '黑' : '红');
+      return '继续未完局 · 中国象棋 · 已走 ' + plies + ' 步 · ' + who;
+    },
+  },
+  {
+    id: 'reversi',
+    emoji: '🌓',
+    name: '黑白棋',
+    desc: '夹住就翻色：位置权重 + 机动性 + 残局算子的 AI，走不动自动弃权，见分比子数。',
+    tags: ['对战', '棋类'],
+    href: 'reversi/index.html',
+    prefix: 'reversi.',
+    records: () => [scoreRec('reversi.wins', '胜'), scoreRec('reversi.streak', '连胜')],
+    totals: () => [num('reversi.wins')],
+    resume: () => {
+      const s = json('reversi.save');
+      if (!s || !Array.isArray(s.mv) || !s.mv.length) return null;
+      return '继续未完局 · 黑白棋 · 第 ' + (s.mv.length + 1) + ' 手 · 轮到' + (Number(s.t) === 2 ? '白' : '黑');
+    },
+  },
+  {
+    id: 'siziqi',
+    emoji: '🔴',
+    name: '四子棋',
+    desc: '重力落子抢连线：横竖斜先连四子者胜，AI 先赢后堵、还会算多层陷阱。',
+    tags: ['对战', '棋类'],
+    href: 'siziqi/index.html',
+    prefix: 'siziqi.',
+    records: () => [scoreRec('siziqi.wins', '胜'), scoreRec('siziqi.streak', '连胜')],
+    totals: () => [num('siziqi.wins')],
+    resume: () => {
+      const s = json('siziqi.save');
+      if (!s || !Array.isArray(s.mv) || !s.mv.length) return null;
+      return '继续未完局 · 四子棋 · 已落 ' + s.mv.length + ' 子 · 轮到' + (s.mv.length % 2 ? '黄' : '红');
+    },
+  },
+  {
+    id: 'baozhiqi',
+    emoji: '🧺',
+    name: '保质期',
+    desc: '整仓货和你都在倒计时：走一步全场老一格，还能把自己的鲜度倒给相邻那格让它停下。',
+    tags: ['益智', '策略'],
+    href: 'baozhiqi/index.html',
+    prefix: 'baozhiqi.',
+    records: () => [levelRec('baozhiqi.level', '最远到第'), scoreRec('baozhiqi.best', '分')],
+    totals: () => [num('baozhiqi.best')],
+  },
 ];
 
 /* ==================== 本机存储读取 ==================== */

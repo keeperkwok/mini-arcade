@@ -1,0 +1,45 @@
+/* 五子棋专属样式（骨架来自 ../shared/base.css） */
+:root { --accent: #fcd34d; --accent-2: #f59e0b; --ink: #3d2208; }
+
+.bg .b1 { background: #b45309; }
+.bg .b2 { background: #f59e0b; }
+.bg .b3 { background: #7c2d12; }
+
+.logo {
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.26), rgba(245, 158, 11, 0.26));
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.22);
+}
+.title h1 { background: linear-gradient(90deg, #fef3c7, #fcd34d); -webkit-background-clip: text; background-clip: text; }
+
+.diff { margin-top: 2px; }
+.diff button { flex: 1 1 0; min-width: 66px; }
+
+.stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.chip { border-radius: 14px; padding: 8px 10px; }
+#turn { color: var(--text); }
+#turn.black::before { content: '●'; color: #0b1020; -webkit-text-stroke: 1px rgba(255,255,255,.55); margin-right: 4px; }
+#turn.white::before { content: '○'; color: #f8fafc; margin-right: 4px; }
+#turn.think { animation: blink 1.1s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: 0.45; } }
+#score { font-size: 16px; }
+
+canvas { cursor: crosshair; }
+
+.tools { grid-template-columns: repeat(3, 1fr); }
+.tool.armed { border-color: rgba(248, 113, 113, 0.6); background: rgba(248, 113, 113, 0.14); }
+.tool.armed span { color: var(--rose); }
+
+/* 遮罩里的对战信息 */
+.modes { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; width: 100%; max-width: 320px; }
+.modes div {
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid var(--line);
+  border-radius: 12px; padding: 8px 6px; font-size: 12.5px; color: var(--muted);
+}
+.modes b { display: block; font-size: 14px; color: var(--text); margin-bottom: 2px; }
+
+@media (max-width: 420px) {
+  .stats { gap: 6px; }
+  .chip { padding: 7px 8px; }
+  #score { font-size: 14px; }
+}

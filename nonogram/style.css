@@ -1,0 +1,97 @@
+/* 数织专属样式：线索区 + 盘面（骨架来自 ../shared/base.css） */
+:root { --accent: #a78bfa; --accent-2: #22d3ee; --ink: #1a1033; }
+
+.ng-wrap {
+  padding: 8px;
+  background: linear-gradient(180deg, #0e1424, #070c17);
+  display: flex;
+  justify-content: center;
+}
+
+.ng {
+  --cs: 26px;
+  --clue: 42px;
+  display: grid;
+  grid-template-columns: var(--clue) auto;
+  grid-template-rows: auto auto;
+  gap: 0;
+}
+.ng-corner { grid-area: 1 / 1 / 2 / 2; }
+.ng-top { grid-area: 1 / 2 / 2 / 3; }
+.ng-side { grid-area: 2 / 1 / 3 / 2; }
+.ng-board { grid-area: 2 / 2 / 3 / 3; }
+
+.ng-top, .ng-side, .ng-board { display: grid; }
+.ng-top {
+  grid-template-columns: repeat(var(--n, 5), var(--cs));
+  align-items: end;
+}
+.ng-side {
+  grid-template-rows: repeat(var(--n, 5), var(--cs));
+  align-items: center;
+}
+.ng-board {
+  grid-template-columns: repeat(var(--n, 5), var(--cs));
+  grid-template-rows: repeat(var(--n, 5), var(--cs));
+  border: 2px solid rgba(226, 232, 240, 0.55);
+  background: #0b1220;
+  touch-action: none;
+}
+
+/* ---------- 线索 ---------- */
+.clue {
+  display: flex;
+  gap: calc(var(--cs) * 0.22);
+  font-size: calc(var(--cs) * 0.5);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+  line-height: 1.1;
+}
+.clue.v { flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 2px; }
+.clue.h { flex-direction: row; align-items: center; justify-content: flex-end; padding-right: 6px; }
+.clue i { font-style: normal; }
+.clue.done { color: var(--emerald); }
+.clue.done i { opacity: 0.55; }
+
+/* ---------- 格子 ---------- */
+.c {
+  position: relative;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: #16203a;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+.c.c5 { border-right-color: rgba(226, 232, 240, 0.5); border-right-width: 2px; }
+.c.r5 { border-bottom-color: rgba(226, 232, 240, 0.5); border-bottom-width: 2px; }
+.c.t5 { border-top-color: rgba(226, 232, 240, 0.5); border-top-width: 2px; }
+.c.l5 { border-left-color: rgba(226, 232, 240, 0.5); border-left-width: 2px; }
+.c.f { background: linear-gradient(160deg, #cbd5e1, #eef2ff); border-color: rgba(226, 232, 240, 0.5); }
+.c.x::after {
+  content: '×';
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-size: calc(var(--cs) * 0.62);
+  color: rgba(148, 163, 184, 0.75);
+}
+.c.auto { background: #101a2e; }
+.c.bad { animation: wrong 0.5s ease; }
+@keyframes wrong {
+  from { background: #ef4444; }
+  to { background: #101a2e; }
+}
+.c.tip { animation: tipflash 0.6s ease; }
+@keyframes tipflash {
+  from { background: #fbbf24; }
+}
+.c.just { animation: justpop 0.28s ease; }
+@keyframes justpop {
+  from { transform: scale(0.6); }
+}
+.c.line { box-shadow: inset 0 0 0 2px rgba(167, 139, 250, 0.55); }
+
+.genning { display: grid; place-items: center; min-height: 180px; color: var(--muted); font-size: 14px; }
+
+@media (max-width: 420px) {
+  .ng { --clue: calc(var(--cs) * 1.9); }
+}

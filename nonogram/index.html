@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>数织 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖼️</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 560px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🖼️</a>
+    <div class="title">
+      <h1>数织</h1>
+      <p class="sub">NONOGRAM · 按数字涂出图案</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="生成新题" aria-label="生成新题">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="easy">5×5</button>
+    <button data-diff="medium">10×10</button>
+    <button data-diff="hard">15×15</button>
+    <button data-diff="expert">20×20</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">用时</span><span class="value" id="time">0:00</span></div>
+    <div class="chip"><span class="label">已涂 / 总格</span><span class="value info" id="made">0/0</span></div>
+    <div class="chip"><span class="label">错涂</span><span class="value" id="mistakes">0</span></div>
+    <div class="chip"><span class="label">最佳用时</span><span class="value warn" id="best">--</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap ng-wrap">
+      <div class="ng" id="ng">
+        <div class="ng-corner" aria-hidden="true"></div>
+        <div class="ng-top" id="ngTop" aria-hidden="true"></div>
+        <div class="ng-side" id="ngSide" aria-hidden="true"></div>
+        <div class="ng-board" id="ngBoard" aria-label="数织盘面"></div>
+      </div>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnUndo" title="撤销 (U)">↶<span>撤销</span></button>
+    <button class="tool" id="btnRedo" title="重做 (R)">↷<span>重做</span></button>
+    <button class="tool" id="btnHint" title="提示 (H)">💡<span>提示</span><b id="hintN">3</b></button>
+    <button class="tool" id="btnMark" title="擦掉所有叉号 (M)">⌧<span>清叉</span></button>
+  </section>
+
+  <footer class="tips">
+    <p>行首与列首的数字 = 该行/列连续涂黑格的长度，两组之间至少隔 1 格；<b>0</b> 表示整行全空</p>
+    <p>🖱️ 按住拖动涂黑 · 右键或长按改为打叉 · <kbd>U</kbd> 撤销 · <kbd>R</kbd> 重做 · <kbd>H</kbd> 提示</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

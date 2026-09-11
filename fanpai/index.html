@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>翻牌堆 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🀄</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 480px; --board-ratio: 460 / 620">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🀄</a>
+    <div class="title">
+      <h1>翻牌堆</h1>
+      <p class="sub">FLIP STACK · 叠牌三消</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重新开始" aria-label="重新开始">↻</button>
+    </div>
+  </header>
+
+  <section class="stats">
+    <div class="chip"><span class="label">关卡</span><span class="value info" id="level">1</span></div>
+    <div class="chip"><span class="label">剩余牌</span><span class="value" id="left">0</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value good" id="score">0</span></div>
+    <div class="chip"><span class="label">最高分</span><span class="value warn" id="best">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <canvas id="cv" aria-label="翻牌堆牌面与槽位"></canvas>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="tools" aria-label="道具">
+    <button class="tool" id="btnUndo" title="把最近 3 张牌放回原位 (U)">↶<span>撤回 <b id="undoN">3</b></span></button>
+    <button class="tool" id="btnShuffle" title="洗牌：重新分配牌堆图案 (S)">🔀<span>洗牌 <b id="shufN">1</b></span></button>
+    <button class="tool" id="btnPop" title="把槽位前 3 张暂存到台上 (D)">📤<span>移出 <b id="popN">1</b></span></button>
+  </section>
+
+  <footer class="tips">
+    <p>🀄 被压住的牌是<b>背面</b>；拿走上层，下面的牌才会翻开 · 翻开的牌点一下收进槽位</p>
+    <p>🎯 同图案凑满 3 张自动消除，槽位 7 格塞满就输 · <kbd>U</kbd> 撤回 <kbd>S</kbd> 洗牌 <kbd>D</kbd> 移出 <kbd>R</kbd> 重开本关</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

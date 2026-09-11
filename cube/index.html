@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>魔方 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 500px; --board-ratio: 460 / 520">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🧊</a>
+    <div class="title">
+      <h1>魔方</h1>
+      <p class="sub">RUBIK · 手写 3D</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重新打乱" aria-label="重新打乱">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="阶数">
+    <button data-size="2">二阶</button>
+    <button data-size="3">三阶</button>
+    <button data-size="4">四阶</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">用时</span><span class="value info" id="time">0:00</span></div>
+    <div class="chip"><span class="label">已转</span><span class="value" id="moves">0</span></div>
+    <div class="chip"><span class="label">最佳</span><span class="value warn" id="best">--:--</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <canvas id="cv" aria-label="三阶魔方"></canvas>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="moves" id="moves-line" aria-label="打乱公式"><b>打乱</b><span id="scrambleText">按「打乱」开始</span></section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnUndo" title="撤销上一步 (Z)">↶<span>撤销 <b id="undoN">0</b></span></button>
+    <button class="tool" id="btnScramble" title="重新打乱 (Enter)">🎲<span>打乱</span></button>
+    <button class="tool" id="btnNet" title="切换展开图 (G)">🗺<span>展开图</span></button>
+    <button class="tool" id="btnReset" title="回到还原状态，用来研究公式">🧩<span>复原</span></button>
+  </section>
+
+  <footer class="kbdrow" aria-label="转动按钮" id="keypad"></footer>
+
+  <footer class="tips">
+    <p>🧊 在<b>空白处拖动</b>转视角、<b>贴着贴纸拖</b>就是转那一层 · 滚轮/双指缩放 · 也可以直接点下面的公式键</p>
+    <p><kbd>U</kbd><kbd>D</kbd><kbd>L</kbd><kbd>R</kbd><kbd>F</kbd><kbd>B</kbd> 转层（按住 <kbd>Shift</kbd> 反向）· <kbd>Z</kbd> 撤销 <kbd>G</kbd> 展开图 <kbd>C</kbd> 复位视角 <kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> 换阶数 · 魔方的每一步撤销都不越过打乱</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
