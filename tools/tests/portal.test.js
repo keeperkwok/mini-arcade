@@ -290,7 +290,7 @@ for (const [id, html] of [['pianpangzhen', piz], ['sanjiao', sj], ['yiziqianjin'
   ok((html.match(/class="rec-item/g) || []).length === 2, id + ' 卡片铺满两条纪录（多余的留在游戏内战绩页，不会被静默挤掉）');
   ok(!/undefined|NaN/.test(html), id + ' 卡片区无 undefined/NaN');
 }
-ok(/<b>3<small>\/29<\/small><\/b><span>玩过/.test(TXT.hud.innerHTML), '统计条按 29 款计算，玩过 3 款');
+ok(/<b>3<small>\/30<\/small><\/b><span>玩过/.test(TXT.hud.innerHTML), '统计条按 30 款计算，玩过 3 款');
 ok(/<b>7,044<\/b>/.test(TXT.hud.innerHTML), '三款分数并入累计最高分 2,704+3,440+900 = 7,044');
 const TXT_MUTE = mountHome({ seed: { 'rad.muted': '1', 'proof.muted': '1', 'han.muted': '1' } });
 for (const id of ['pianpangzhen', 'sanjiao', 'yiziqianjin']) {
@@ -301,6 +301,32 @@ ok(/class="card played/.test(cardHTML(TXT_DIFF.grid, 'yiziqianjin')), '一字千
 ok(!/class="card played/.test(cardHTML(TXT_DIFF.grid, 'sanjiao')), '三校只改过静音开关不算玩过');
 ok(/data-f="文字"/.test(TXT.filters.innerHTML), '新标签 文字 进入筛选栏');
 clickChip(TXT.filters, '文字');
-ok(cardIds(TXT.grid).join(',') === 'pianpangzhen,sanjiao,yiziqianjin', '按「文字」筛选恰好命中这三款');
+ok(cardIds(TXT.grid).join(',') === 'pianpangzhen,sanjiao,yiziqianjin,yaowenjiaozhi',
+  '按「文字」筛选命中四款，且按注册表顺序排列（新游戏只往末尾追加）');
+
+/* ==================== 十、咬文嚼字 ==================== */
+const YAO = mountHome({ seed: {
+  'rad.best': '2704', 'proof.best': '3440', 'han.best': '900',
+  'yao.best': '3418', 'yao.level': '12', 'yao.found': '25', 'yao.diff': 'normal',
+  'yao.dex': '9:2,5,7|9:5,7|done9',
+} });
+const yao = cardHTML(YAO.grid, 'yaowenjiaozhi');
+ok(/🏆 3,418 分/.test(yao), '咬文嚼字卡片显示最高分');
+ok(/🚩 累计咬出 25 种/.test(yao), '卡片显示历代累计咬出的读法种数（图鉴计数，不含整句首通标记）');
+ok(/class="card played/.test(yao), '咬文嚼字有成绩即算玩过');
+ok((yao.match(/class="rec-item/g) || []).length === 2, '咬文嚼字卡片只铺两条纪录');
+ok(!/undefined|NaN|3418<\/b><\/span>/.test(yao.replace(/🏆 3,418 分/, '')), '卡片区不泄漏原始存档串');
+ok(/<b>4<small>\/30<\/small><\/b><span>玩过/.test(YAO.hud.innerHTML), '加上咬文嚼字共 4 款玩过');
+ok(/<b>10,462<\/b>/.test(YAO.hud.innerHTML), '四款文字游戏分数并进累计最高分 7,044+3,418 = 10,462');
+const YAO_MUTE = mountHome({ seed: { 'yao.muted': '1' } });
+ok(!/class="card played/.test(cardHTML(YAO_MUTE.grid, 'yaowenjiaozhi')), '咬文嚼字只点过静音不算玩过');
+const YAO_FRESH = mountHome({ seed: { 'yao.level': '1' } });
+ok(/class="card played/.test(cardHTML(YAO_FRESH.grid, 'yaowenjiaozhi')), '只读到过第 1 句也算玩过');
+ok(!/🏆|🚩/.test(cardHTML(YAO_FRESH.grid, 'yaowenjiaozhi')), '没分数没图鉴时卡片不硬凑纪录');
+clickChip(YAO.filters, '文字');
+ok(cardIds(YAO.grid).join(',') === 'pianpangzhen,sanjiao,yiziqianjin,yaowenjiaozhi',
+  '按「文字」筛选现在恰好命中四款');
+clickChip(YAO.filters, 'all');
+ok(cardIds(YAO.grid).indexOf('yaowenjiaozhi') > cardIds(YAO.grid).indexOf('yiziqianjin'), '新游戏排在注册表末尾，不会插队');
 
 report('首页进度中心');

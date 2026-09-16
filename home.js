@@ -434,6 +434,17 @@ const GAMES = [
     records: () => [scoreRec('han.best', '金'), maxRec(['han.streak'], '最长连胜')],
     totals: () => [num('han.best')],
   },
+  {
+    id: 'yaowenjiaozhi',
+    emoji: '🦷',
+    name: '咬文嚼字',
+    desc: '一串没有标点的字，刀落在哪儿意思就是什么：把一句能读出的所有断法全咬出来才算过。',
+    tags: ['文字', '益智'],
+    href: 'yaowenjiaozhi/index.html',
+    prefix: 'yao.',
+    records: () => [scoreRec('yao.best', '分'), unitRec('yao.found', '累计咬出', '种')],
+    totals: () => [num('yao.best')],
+  },
 ];
 
 /* ==================== 本机存储读取 ==================== */
