@@ -400,6 +400,40 @@ const GAMES = [
         ' 座塔 · 金币 ' + (Number(s.gold) || 0);
     },
   },
+  {
+    id: 'pianpangzhen',
+    emoji: '🈵',
+    name: '偏旁阵',
+    desc: '横着拼左右结构、竖着拼上下结构：同一对部件换个方位就不是字，三个相同部件还能连成品字。',
+    tags: ['文字', '益智'],
+    href: 'pianpangzhen/index.html',
+    prefix: 'rad.',
+    // 卡片一行只放得下两条，第三条（闯到第几关）留在游戏内的战绩页里
+    records: () => [scoreRec('rad.best', '分'), collectRec('rad.dex', '字图鉴已收')],
+    totals: () => [num('rad.best')],
+  },
+  {
+    id: 'sanjiao',
+    emoji: '✏️',
+    name: '三校',
+    desc: '稿子里埋着真的常被写错的字：圈对赚稿费，圈错扣钱还扣时间，截稿前清不干净就算退稿。',
+    tags: ['文字', '休闲'],
+    href: 'sanjiao/index.html',
+    prefix: 'proof.',
+    records: () => [scoreRec('proof.best', '稿费'), unitRec('proof.level', '最远校完', '段')],
+    totals: () => [num('proof.best')],
+  },
+  {
+    id: 'yiziqianjin',
+    emoji: '🈲',
+    name: '一字千金',
+    desc: '想好一个字让你猜：声母韵母声调部首结构五条各判一次，猜中和买线索都要花钱，剩下的金就是分。',
+    tags: ['文字', '益智'],
+    href: 'yiziqianjin/index.html',
+    prefix: 'han.',
+    records: () => [scoreRec('han.best', '金'), maxRec(['han.streak'], '最长连胜')],
+    totals: () => [num('han.best')],
+  },
 ];
 
 /* ==================== 本机存储读取 ==================== */
@@ -451,6 +485,19 @@ function levelRec(key, label) {
   const v = num(key);
   if (v <= 1) return null;
   return { tone: 'amber', text: '🚩 ' + label + ' ' + v + ' 关' };
+}
+function unitRec(key, label, unit) {
+  const v = num(key);
+  if (v <= 0) return null;
+  return { tone: 'amber', text: '🚩 ' + label + ' ' + fmtInt(v) + ' ' + unit };
+}
+// 收集类纪录：键可以存数字，也可以存一串已收集的字（长度即数量）
+function collectRec(key, label) {
+  const raw = store[key];
+  if (raw == null) return null;
+  const v = /^\d+$/.test(String(raw)) ? Number(raw) : String(raw).length;
+  if (v <= 0) return null;
+  return { tone: 'cyan', text: '📚 ' + label + ' ' + v + ' 个' };
 }
 function roundRec(key, label) {
   const v = num(key);

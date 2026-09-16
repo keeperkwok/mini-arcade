@@ -152,16 +152,21 @@ chk(st(g).combo === 1, '记上一次连消');
 chk(g.byId('score').textContent === '30', '分数同步到状态栏');
 
 begin(g, 1);
-const ks = Object.keys(kindsOf(freeTiles(g))).map(Number);
-const a1 = freeTiles(g).find((t) => t.k === ks[0]);
+// 随机盘面不能赌「第二张一定还露着」：先找一对同时可点的同图案牌再往下走
+const groups = {};
+for (const t of freeTiles(g)) (groups[t.k] = groups[t.k] || []).push(t);
+const ks = Object.keys(groups).map(Number).filter((k) => groups[k].length >= 2);
+chk(ks.length >= 1, '开局能找到一对同时露在外面的同图案牌');
+const k0 = ks[0];
+const a1 = groups[k0][0];
 tap(g, a1);
-const mid = freeTiles(g).find((t) => t.k !== ks[0]);
+const mid = freeTiles(g).find((t) => t.k !== k0);
 tap(g, mid);
-const a2 = freeTiles(g).find((t) => t.k === ks[0]);
-chk(!!a2, '还能找到同图案的第二张');
+const a2 = freeTiles(g).find((t) => t.k === k0 && t !== a1);
+chk(!!a2, '取走别的牌之后同图案的第二张仍可点（拿牌只掀开下层，不会把牌压回去）');
 tap(g, a2);
 const arr = f(g).slotArr();
-chk(arr.length === 3 && arr[0].k === ks[0] && arr[1].k === ks[0], '后来那张插到了已有一张的旁边，不是排在末尾');
+chk(arr.length === 3 && arr[0].k === k0 && arr[1].k === k0, '后来那张插到了已有一张的旁边，不是排在末尾');
 
 /* ==================== D. 三个道具 ==================== */
 begin(g, 1);

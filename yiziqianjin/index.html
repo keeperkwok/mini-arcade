@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>一字千金 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🈲</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 560px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🈲</a>
+    <div class="title">
+      <h1>一字千金</h1>
+      <p class="sub">YI ZI QIAN JIN · 五个坐标锁一个字</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="换一个字" aria-label="换一个字">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="easy">常用字</button>
+    <button data-diff="normal">全字库</button>
+    <button data-diff="hard">全字库 · 少钱</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">剩余千金</span><span class="value good" id="coin">1000</span></div>
+    <div class="chip"><span class="label">已猜</span><span class="value info" id="tries">0</span></div>
+    <div class="chip"><span class="label">连胜</span><span class="value warn" id="streak">0</span></div>
+    <div class="chip"><span class="label">候选字</span><span class="value" id="cand">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap hz-wrap">
+      <div class="hz-stage">
+        <p class="hz-head" id="head">这个字还没猜过</p>
+        <div class="hz-axes" id="axes" aria-label="五轴判定"></div>
+        <div class="hz-log" id="log" aria-label="猜测记录"></div>
+      </div>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="hz-buy" id="buy" aria-label="买线索">
+    <button class="buy" data-axis="init">🔤 声母</button>
+    <button class="buy" data-axis="fin">🎯 韵母</button>
+    <button class="buy" data-axis="tone">🎼 声调</button>
+    <button class="buy" data-axis="rad">🌱 部首</button>
+    <button class="buy" data-axis="str">🧩 结构</button>
+  </section>
+
+  <section class="hz-sea">
+    <div class="hz-sea-top">
+      <input id="type" class="hz-type" type="text" maxlength="2" placeholder="打一个字…" aria-label="输入要猜的字">
+      <button id="btnGuess" class="primary hz-go">猜</button>
+      <label class="hz-only"><input type="checkbox" id="onlyLeft" checked> 只看候选</label>
+    </div>
+    <div class="hz-chips" id="chips" aria-label="字海"></div>
+  </section>
+
+  <footer class="tips">
+    <p>每猜一个字，<b>声母 / 韵母 / 声调 / 部首 / 结构</b> 五个坐标各判一次对错；猜中的轴会锁定，候选字随之收窄</p>
+    <p>猜一次花钱，买一条线索也花钱，<b>剩下多少金就是得分</b> · <kbd>回车</kbd> 猜 · <kbd>1-5</kbd> 买线索 · <kbd>N</kbd> 换字 · <kbd>M</kbd> 静音</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

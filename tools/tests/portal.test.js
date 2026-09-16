@@ -270,4 +270,37 @@ for (const h of [BEAT, DG]) {
   ok(h.grid.innerHTML.length > 0 && !/undefined|NaN/.test(h.grid.innerHTML), '两款新游戏的卡片区无 undefined/NaN');
 }
 
+/* ==================== 九、三款文字游戏 ==================== */
+const TXT = mountHome({ seed: {
+  'rad.best': '2704', 'rad.level': '7', 'rad.dex': '明好妈林声', 'rad.diff': 'hard',
+  'proof.best': '3440', 'proof.level': '11', 'proof.hits': '27', 'proof.diff': 'easy',
+  'han.best': '900', 'han.solved': '12', 'han.streak': '5', 'han.diff': 'normal',
+} });
+const piz = cardHTML(TXT.grid, 'pianpangzhen');
+ok(/🏆 2,704 分/.test(piz), '偏旁阵卡片显示最高分（带千分位）');
+ok(/📚 字图鉴已收 5 个/.test(piz), '偏旁阵卡片显示图鉴数（键存字串，长度即数量）');
+const sj = cardHTML(TXT.grid, 'sanjiao');
+ok(/🏆 3,440 稿费/.test(sj), '三校卡片把分数单位写成「稿费」而不是「分」');
+ok(/🚩 最远校完 11 段/.test(sj), '三校卡片显示校完段数，单位是「段」');
+const hz = cardHTML(TXT.grid, 'yiziqianjin');
+ok(/🏆 900 金/.test(hz), '一字千金卡片显示剩余千金即得分');
+ok(/🔥 最长连胜 5/.test(hz), '一字千金卡片显示历史最长连胜');
+for (const [id, html] of [['pianpangzhen', piz], ['sanjiao', sj], ['yiziqianjin', hz]]) {
+  ok(/class="card played/.test(html), id + ' 有成绩即算玩过');
+  ok((html.match(/class="rec-item/g) || []).length === 2, id + ' 卡片铺满两条纪录（多余的留在游戏内战绩页，不会被静默挤掉）');
+  ok(!/undefined|NaN/.test(html), id + ' 卡片区无 undefined/NaN');
+}
+ok(/<b>3<small>\/29<\/small><\/b><span>玩过/.test(TXT.hud.innerHTML), '统计条按 29 款计算，玩过 3 款');
+ok(/<b>7,044<\/b>/.test(TXT.hud.innerHTML), '三款分数并入累计最高分 2,704+3,440+900 = 7,044');
+const TXT_MUTE = mountHome({ seed: { 'rad.muted': '1', 'proof.muted': '1', 'han.muted': '1' } });
+for (const id of ['pianpangzhen', 'sanjiao', 'yiziqianjin']) {
+  ok(!/class="card played/.test(cardHTML(TXT_MUTE.grid, id)), id + ' 只点过静音不算玩过');
+}
+const TXT_DIFF = mountHome({ seed: { 'han.diff': 'hard', 'proof.muted': '1' } });
+ok(/class="card played/.test(cardHTML(TXT_DIFF.grid, 'yiziqianjin')), '一字千金只要动过难度选择就算玩过');
+ok(!/class="card played/.test(cardHTML(TXT_DIFF.grid, 'sanjiao')), '三校只改过静音开关不算玩过');
+ok(/data-f="文字"/.test(TXT.filters.innerHTML), '新标签 文字 进入筛选栏');
+clickChip(TXT.filters, '文字');
+ok(cardIds(TXT.grid).join(',') === 'pianpangzhen,sanjiao,yiziqianjin', '按「文字」筛选恰好命中这三款');
+
 report('首页进度中心');

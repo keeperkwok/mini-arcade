@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>偏旁阵 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🈵</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 520px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🈵</a>
+    <div class="title">
+      <h1>偏旁阵</h1>
+      <p class="sub">PIN PAI ZHEN · 横竖拼出一个字</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重开一局" aria-label="重开一局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="easy">常用部件</button>
+    <button data-diff="normal">全部部件</button>
+    <button data-diff="hard">全部部件 · 少提示</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">关卡</span><span class="value info" id="lv">1</span></div>
+    <div class="chip"><span class="label">本关进度</span><span class="value" id="prog">0/5</span></div>
+    <div class="chip"><span class="label">剩余步数</span><span class="value warn" id="steps">10</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value good" id="score">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap pp-wrap">
+      <div class="pp-grid" id="grid" aria-label="部件盘"></div>
+    </div>
+    <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+  </section>
+
+  <section class="pp-msg"><span id="msg">横着拼左右结构，竖着拼上下结构</span></section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnHint" title="提示 (H)">💡<span>提示</span><b id="hintN">3</b></button>
+    <button class="tool" id="btnShuffle" title="洗牌 (S)">🌀<span>洗牌</span><b id="shuffleN">3</b></button>
+    <button class="tool" id="btnDex" title="图鉴 (D)">📖<span>图鉴</span><b id="dexN">0</b></button>
+  </section>
+
+  <footer class="tips">
+    <p>点两个<b>相邻</b>部件：<b>横排</b>只能拼左右结构（左旁在左）、<b>竖排</b>只能拼上下结构（上头在上）；囗门辶这类包围框挨着就行</p>
+    <p>三个相同部件连成 <b>品字形</b> = 晶/鑫/淼，分最高 · 每关步数有限，拼错一次也吃一步 · <kbd>H</kbd> 提示 · <kbd>S</kbd> 洗牌 · <kbd>D</kbd> 图鉴</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
