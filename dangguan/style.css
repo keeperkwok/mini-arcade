@@ -1,0 +1,97 @@
+/* 一夫当关专属样式（骨架来自 ../shared/base.css） */
+:root { --accent: #fbbf24; --accent-2: #34d399; --ink: #1c1403; }
+
+.bg .b1 { background: #b45309; }
+.bg .b2 { background: #047857; }
+.bg .b3 { background: #4338ca; }
+
+.logo {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.24), rgba(52, 211, 153, 0.24));
+  box-shadow: 0 8px 24px rgba(251, 191, 36, 0.2);
+}
+.title h1 { background: linear-gradient(90deg, #fde68a, #a7f3d0); -webkit-background-clip: text; background-clip: text; }
+
+.diff button small { display: block; font-size: 10px; opacity: 0.75; }
+
+.stats { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.chip { border-radius: 14px; padding: 8px 10px; }
+.chip .value { font-size: 19px; }
+#gold { color: var(--amber); }
+#bricks { color: #cbd5e1; }
+#lives { color: var(--rose); }
+#wave { color: var(--cyan); }
+
+canvas { cursor: crosshair; touch-action: none; }
+
+/* 建造栏：4 个工具 + 拆除 */
+.build { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+.b2 {
+  font: inherit; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  padding: 7px 2px 5px;
+  border-radius: 13px;
+  border: 1px solid var(--line);
+  background: var(--card); color: var(--text);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.13s ease, border-color 0.13s ease, opacity 0.13s ease;
+}
+.b2 i { font-style: normal; font-size: 19px; line-height: 1.25; }
+.b2 span { font-size: 11px; color: var(--muted); }
+.b2 b { display: block; font-size: 10.5px; color: var(--amber); font-weight: 700; }
+.b2:hover:not(:disabled) { transform: translateY(-2px); border-color: rgba(251, 191, 36, 0.5); }
+.b2.on {
+  color: var(--ink);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+}
+.b2.on span, .b2.on b { color: rgba(28, 20, 3, 0.78); }
+.b2:disabled { opacity: 0.38; cursor: default; }
+.b2.broke b { color: var(--rose); }
+
+.wavebar { display: flex; align-items: center; gap: 9px; }
+.wavebar .primary { flex: 1; padding: 11px 14px; font-size: 14.5px; }
+.wavebar .ghost { flex: none; padding: 10px 14px; }
+.route { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; flex: 1.2; }
+.route b { color: var(--cyan); }
+
+/* 选中塔的详情面板 */
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  padding: 9px 11px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.panel .pi { font-size: 24px; }
+.panel .pn { font-size: 14px; font-weight: 700; }
+.panel .pd { font-size: 11px; color: var(--muted); line-height: 1.55; flex: 1; min-width: 120px; }
+.panel button {
+  font: inherit; font-size: 12.5px; cursor: pointer;
+  padding: 8px 13px; border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(148, 163, 184, 0.1); color: var(--text);
+}
+.panel button.up { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: var(--ink); font-weight: 700; border-color: transparent; }
+.panel button:disabled { opacity: 0.42; cursor: default; }
+
+.legend { display: flex; gap: 9px; flex-wrap: wrap; justify-content: center; font-size: 11px; color: var(--muted); }
+.legend i { font-style: normal; }
+
+.report { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 340px; }
+.report div {
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid var(--line);
+  border-radius: 12px; padding: 7px 4px;
+}
+.report b { display: block; font-size: 18px; color: var(--cyan); font-variant-numeric: tabular-nums; }
+.report span { font-size: 10.5px; color: var(--muted); }
+
+@media (max-width: 420px) {
+  .stats { gap: 6px; }
+  .chip { padding: 7px 6px; }
+  .chip .value { font-size: 16px; }
+  .build { gap: 5px; }
+  .b2 span { font-size: 10px; }
+  .route { display: none; }
+}

@@ -1,0 +1,59 @@
+/* 节拍雨专属样式（骨架来自 ../shared/base.css） */
+:root { --accent: #a78bfa; --accent-2: #f472b6; --ink: #2a0a33; }
+
+.bg .b1 { background: #6d28d9; }
+.bg .b2 { background: #be185d; }
+.bg .b3 { background: #0e7490; }
+
+.logo {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.26), rgba(244, 114, 182, 0.26));
+  box-shadow: 0 8px 24px rgba(167, 139, 250, 0.22);
+}
+.title h1 { background: linear-gradient(90deg, #ddd6fe, #fbcfe8); -webkit-background-clip: text; background-clip: text; }
+
+.diff button.active { box-shadow: 0 6px 18px rgba(244, 114, 182, 0.34); }
+.diff button small { display: block; font-size: 10px; opacity: 0.72; letter-spacing: 0.04em; }
+
+.stats { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.chip { border-radius: 14px; padding: 8px 10px; }
+.chip .value { font-size: 19px; }
+#score { color: var(--emerald); }
+#combo { color: #ddd6fe; }
+#acc { color: var(--cyan); }
+#hp { color: var(--rose); }
+#hp.low { animation: blink 0.7s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0.35; } }
+
+canvas { cursor: pointer; touch-action: none; }
+
+.tools { grid-template-columns: repeat(3, 1fr); }
+.tool.on {
+  color: var(--ink);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+}
+.tool.on span { color: rgba(42, 10, 51, 0.72); }
+.tool.on b { color: var(--ink); }
+
+.now { text-align: center; font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+.now b { color: #fbcfe8; }
+
+.report { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; max-width: 350px; }
+.report div {
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid var(--line);
+  border-radius: 12px; padding: 7px 4px;
+}
+.report b { display: block; font-size: 18px; color: var(--cyan); font-variant-numeric: tabular-nums; }
+.report span { font-size: 10.5px; color: var(--muted); }
+.rank { font-size: 62px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
+.rank.s { color: #fde68a; text-shadow: 0 0 26px rgba(251, 191, 36, 0.55); }
+.rank.a { color: #a7f3d0; } .rank.b { color: #a5f3fc; }
+.rank.c { color: #cbd5e1; } .rank.d { color: #94a3b8; } .rank.f { color: #fca5a5; }
+
+@media (max-width: 420px) {
+  .stats { gap: 6px; }
+  .chip { padding: 7px 8px; }
+  .chip .value { font-size: 16px; }
+  .rank { font-size: 48px; }
+}

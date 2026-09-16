@@ -364,6 +364,42 @@ const GAMES = [
     records: () => [levelRec('baozhiqi.level', '最远到第'), scoreRec('baozhiqi.best', '分')],
     totals: () => [num('baozhiqi.best')],
   },
+  {
+    id: 'jiepaiyu',
+    emoji: '🎵',
+    name: '节拍雨',
+    desc: '三首曲子全部现场合成：下落的就是主旋律，按准 D F J K 才补得完，漏一个音就哑一拍。',
+    tags: ['音乐', '反应'],
+    href: 'jiepaiyu/index.html',
+    prefix: 'beat.',
+    records: () => [scoreRec('beat.best.hard', '分'),
+      maxRec(['beat.combo.easy', 'beat.combo.mid', 'beat.combo.hard'], '最长连击')],
+    totals: () => [num('beat.best.easy'), num('beat.best.mid'), num('beat.best.hard')],
+  },
+  {
+    id: 'dangguan',
+    emoji: '🏰',
+    name: '一夫当关',
+    desc: '塔和墙都是路障：敌人永远走当下最短路，放下一格就当场改写路线，但 🐏 直线撞墙、👻 会飞。',
+    tags: ['策略', '塔防'],
+    href: 'dangguan/index.html',
+    prefix: 'dangguan.',
+    records: () => [levelRec('dangguan.wave', '最高守到第'), scoreRec('dangguan.best', '分')],
+    totals: () => [num('dangguan.best')],
+    resume: () => {
+      const s = json('dangguan.save');
+      if (!s || !Array.isArray(s.towers) || !Array.isArray(s.walls)) return null;
+      const w = Number(s.wave) || 0;
+      if (w < 2) return null;
+      // 只校验形状与范围；塔型认不认识由游戏本体决定（它会拒绝并清档）
+      const bad = s.towers.some((t) => !Array.isArray(t) || t.length !== 4 ||
+        !(t[1] >= 0 && t[1] <= 10) || !(t[2] >= 0 && t[2] <= 7) || !(t[3] >= 1 && t[3] <= 3)) ||
+        s.walls.some((v) => !Array.isArray(v) || v.length !== 2 || !(v[0] >= 0 && v[0] <= 10) || !(v[1] >= 0 && v[1] <= 7));
+      if (bad) return null;
+      return '继续未完局 · 一夫当关 · 已守 ' + (w - 1) + ' 波 · ' + s.towers.length +
+        ' 座塔 · 金币 ' + (Number(s.gold) || 0);
+    },
+  },
 ];
 
 /* ==================== 本机存储读取 ==================== */
@@ -403,6 +439,13 @@ function timeRec(variants) {
   if (!best) return null;
   const tail = variants.length > 1 ? ' · ' + done + '/' + variants.length + ' 难度' : '';
   return { tone: 'cyan', text: '⏱ ' + fmtTime(best.s) + ' ' + best.name + tail, count: done };
+}
+// 同类纪录散在多个难度键上时，取最大的那条（如音游的最长连击）
+function maxRec(keys, label) {
+  let best = 0;
+  for (const k of keys) best = Math.max(best, num(k));
+  if (!best) return null;
+  return { tone: 'amber', text: '🔥 ' + label + ' ' + best };
 }
 function levelRec(key, label) {
   const v = num(key);

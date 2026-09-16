@@ -235,4 +235,39 @@ for (const h of [F, Z, N, Q]) {
   ok(h.grid.innerHTML.length > 0 && !/undefined|NaN/.test(h.grid.innerHTML), '新游戏卡片区无 undefined/NaN');
 }
 
+/* ==================== 七、节拍雨 / 一夫当关 ==================== */
+const BEAT = mountHome({ seed: { 'beat.best.mid': '48210', 'beat.best.hard': '98765', 'beat.combo.easy': '110', 'beat.combo.hard': '247' } });
+const bc = cardHTML(BEAT.grid, 'jiepaiyu');
+ok(/class="card played"/.test(bc), '有成绩即算玩过节拍雨');
+ok(/🏆 98,765 分/.test(bc), '节拍雨卡片显示最高分（带千分位）');
+ok(/🔥 最长连击 247/.test(bc), '最长连击跨三首曲子取最大的那条');
+const DG = mountHome({ seed: { 'dangguan.wave': '14', 'dangguan.best': '3210', 'dangguan.diff': 'hard' } });
+const dc = cardHTML(DG.grid, 'dangguan');
+ok(/🚩 最高守到第 14 关/.test(dc), '一夫当关卡片显示守到的波次');
+ok(/🏆 3,210 分/.test(dc), '一夫当关卡片显示最高分');
+const MUTE_ONLY = mountHome({ seed: { 'beat.muted': '1', 'dangguan.muted': '1' } });
+ok(!/class="card played"/.test(cardHTML(MUTE_ONLY.grid, 'jiepaiyu')), '只点过静音不算玩过节拍雨');
+ok(!/class="card played"/.test(cardHTML(MUTE_ONLY.grid, 'dangguan')), '同理只静音不算玩过一夫当关');
+const REAL_SAVE = JSON.stringify({ diff: 'mid', wave: 3, gold: 604, lives: 20, bricks: 17, score: 310, kills: 7,
+  seconds: 12, towers: [['bolt', 2, 3, 1], ['bolt', 3, 5, 1], ['bolt', 8, 3, 1]], walls: [] });
+const RESUME = mountHome({ seed: { 'dangguan.save': REAL_SAVE } });
+ok(/继续未完局 · 一夫当关 · 已守 2 波 · 3 座塔 · 金币 604/.test(RESUME.hud.innerHTML),
+  '首页读得懂一夫当关的续档：' + (RESUME.hud.innerHTML.match(/继续未完局[^<]*/) || ['(没出药丸)'])[0]);
+for (const [raw, why] of [
+  ['{bad', 'JSON 损坏'],
+  ['1234', '不是对象'],
+  ['{"wave":1,"gold":1,"lives":1,"towers":[],"walls":[]}', '还没守住过一波'],
+  ['{"wave":9,"gold":1,"lives":1,"towers":"nope","walls":[]}', '塔表不是数组'],
+  ['{"wave":9,"gold":1,"lives":1,"towers":[["bolt",99,1,1]],"walls":[]}', '塔的坐标越界'],
+  ['{"wave":9,"gold":1,"lives":1,"towers":[["bolt",1,1,9]],"walls":[]}', '塔的等级越界'],
+  ['{"wave":9,"gold":1,"lives":1,"towers":[],"walls":[[3,99]]}', '墙的行号越界'],
+]) {
+  const h = mountHome({ seed: { 'dangguan.save': raw } });
+  ok(!/继续未完局/.test(h.hud.innerHTML), '一夫当关' + why + '时不显示续玩药丸');
+}
+ok(/data-f="音乐"/.test(BEAT.filters.innerHTML) && /data-f="塔防"/.test(DG.filters.innerHTML), '新标签 音乐/塔防 进入筛选栏');
+for (const h of [BEAT, DG]) {
+  ok(h.grid.innerHTML.length > 0 && !/undefined|NaN/.test(h.grid.innerHTML), '两款新游戏的卡片区无 undefined/NaN');
+}
+
 report('首页进度中心');

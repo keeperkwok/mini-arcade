@@ -147,4 +147,51 @@ const snap = (g) => Object.assign({}, g.storage._data);
       '五子棋卡片显示胜场纪录');
 }
 
+/* ---------- 一夫当关：真点三座塔、真守完一波，首页要读得懂这份档 ---------- */
+{
+  // 桩里 canvas 的 getBoundingClientRect 是 460×460，游戏内坐标才是 440×320
+  const tap = (g, c, r) => {
+    g.canvas().dispatch('pointerdown', {
+      pointerId: 1, isPrimary: true,
+      clientX: (c * 40 + 20) / 440 * 460, clientY: (r * 40 + 20) / 320 * 460,
+    });
+    g.pump(0.2);
+  };
+  const g = loadGame('dangguan', {});
+  g.pump(0.4);
+  chk(/一夫当关/.test(g.byId('overlayContent').innerHTML) && /路障/.test(g.byId('overlayContent').innerHTML),
+    '一夫当关开场就讲清「塔和墙都是路障」');
+  chk(!actBtn(g, 'resume'), '无存档时不问要不要继续');
+  actBtn(g, 'start').dispatch('click');
+  g.pump(0.3);
+  chk(g.byId('gold').textContent === '210', '标准难度起手 210 金');
+  chk(g.byId('route').textContent.indexOf('11') >= 0, '空场路线 11 格，实时报给玩家：' + g.byId('route').textContent);
+  tap(g, 2, 3);
+  chk(g.byId('gold').textContent === '160', '点一下草地就建起连弩（-50 金）');
+  tap(g, 5, 4);
+  chk(g.byId('route').textContent.indexOf('13') >= 0, '塔一落地路线就变长：' + g.byId('route').textContent);
+  tap(g, 8, 3);
+  chk(g.byId('gold').textContent === '60' && g.byId('bricks').textContent === '10', '三座塔 150 金，砖一块没花');
+  g.byId('btnWave').dispatch('click');
+  for (let k = 0; k < 3600 && g.byId('wave').textContent === '1'; k++) g.tick(16);
+  chk(g.byId('wave').textContent === '2', '第 1 波守住 → 进第 2 波备战');
+  const seed = snap(g);
+  const sv = seed['dangguan.save'] ? JSON.parse(seed['dangguan.save']) : null;
+  chk(!!sv && sv.wave === 2 && sv.towers.length === 3, '清波当场写出 dangguan.save：' + JSON.stringify(sv && { w: sv.wave, t: sv.towers.length, g: sv.gold }));
+  chk(seed['dangguan.wave'] === '1' && +seed['dangguan.best'] === sv.score, '波数与分数也当场入档（不用等城破）');
+  chk(Object.keys(seed).every((k) => k.indexOf('dangguan.') === 0), '一夫当关只写 dangguan.* 键：' + Object.keys(seed).join(','));
+  const H = mountHome({ seed });
+  chk(new RegExp('继续未完局 · 一夫当关 · 已守 1 波 · 3 座塔 · 金币 ' + sv.gold).test(pill(H)),
+    '首页读得懂一夫当关存档：' + (pill(H) || '(没出药丸)'));
+  chk(/class="card played"/.test(cardHTML(H.grid, 'dangguan')), '有存档即算玩过一夫当关');
+  const empty = mountHome({ seed: { 'dangguan.save': '' } });
+  chk(pill(empty) === '', 'dangguan.save 清空后药丸消失');
+  const back = loadGame('dangguan', { storage: JSON.parse(JSON.stringify(seed)) });
+  back.pump(0.4);
+  chk(!!actBtn(back, 'resume'), '重新打开游戏会问「继续第 2 波」');
+  actBtn(back, 'resume').dispatch('click');
+  back.pump(0.3);
+  chk(back.byId('gold').textContent === String(sv.gold), '续档后金币与存档一致（' + back.byId('gold').textContent + '）');
+}
+
 summary('存档契约', fails);
