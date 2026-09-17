@@ -1,0 +1,88 @@
+/* 虫食算专属样式：竖式 + 数字键盘（骨架来自 ../shared/base.css） */
+:root { --accent: #fbbf24; --accent-2: #34d399; --ink: #241a02; --app-width: 520px; }
+
+.board-wrap {
+  display: block;
+  padding: 18px 14px 0;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(251, 191, 36, 0.14), transparent 62%),
+    linear-gradient(180deg, #16130a, #08070d);
+}
+
+/* 竖式：第一列是运算符号，后面每列一位 */
+.cs-form {
+  display: grid;
+  gap: 6px 6px;
+  justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+.cs-sign {
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--amber);
+}
+.cs-d {
+  width: 42px; height: 46px;
+  display: grid; place-items: center;
+  font: inherit; font-size: 23px; font-weight: 800;
+  border-radius: 9px;
+  color: var(--text);
+  background: rgba(148, 163, 184, 0.07);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+.cs-d.ghost { background: none; border-color: transparent; color: rgba(148, 163, 184, 0.24); font-size: 15px; }
+.cs-d.known { color: #f8fafc; }
+.cs-line { grid-column: 2 / -1; height: 3px; border-radius: 2px; background: linear-gradient(90deg, transparent, rgba(248, 250, 252, 0.7), rgba(248, 250, 252, 0.7)); }
+
+/* 空格与玩家填进去的数 */
+button.cs-d.blank {
+  cursor: pointer;
+  color: var(--muted);
+  background: rgba(251, 191, 36, 0.10);
+  border: 1px dashed rgba(251, 191, 36, 0.55);
+  transition: transform 0.1s ease, border-color 0.14s ease, background 0.14s ease;
+}
+button.cs-d.blank.filled { color: var(--amber); border-style: solid; background: rgba(251, 191, 36, 0.16); }
+button.cs-d.blank:hover { transform: translateY(-2px); border-color: var(--accent); }
+button.cs-d.sel { box-shadow: 0 0 0 2px var(--accent), 0 6px 18px rgba(251, 191, 36, 0.28); }
+button.cs-d.eaten { color: #86efac; background: rgba(52, 211, 153, 0.12); border-color: rgba(52, 211, 153, 0.5); }
+button.cs-d.bad { animation: shake 0.34s ease; color: var(--rose); border-color: rgba(248, 113, 113, 0.7); }
+@keyframes shake { 25% { transform: translateX(-4px); } 50% { transform: translateX(4px); } 75% { transform: translateX(-2px); } }
+.cs-d.worm { color: #86efac; font-size: 19px; }
+
+/* 数字键盘 */
+.cs-pad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 7px; }
+.cs-pad button {
+  font: inherit; font-size: 20px; font-weight: 800;
+  padding: 11px 0; border-radius: 11px; cursor: pointer;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.1s ease, border-color 0.14s ease, background 0.14s ease;
+}
+.cs-pad button:hover:not(:disabled) { border-color: rgba(251, 191, 36, 0.6); transform: translateY(-2px); }
+.cs-pad button:active:not(:disabled) { transform: scale(0.95); }
+.cs-pad button:disabled { opacity: 0.28; cursor: default; }
+.cs-pad button.wide { grid-column: span 2; font-size: 17px; color: var(--muted); }
+
+.cs-msg {
+  min-height: 46px; margin: 12px -14px 0; padding: 11px 16px 14px;
+  text-align: center; font-size: 13.5px; line-height: 1.7; color: var(--muted);
+  border-top: 1px solid rgba(148, 163, 184, 0.14); background: rgba(8, 7, 13, 0.72);
+}
+.cs-msg b { color: var(--accent); }
+.cs-msg .wrong { color: var(--rose); font-weight: 700; }
+.cs-msg .right { color: var(--emerald); font-weight: 700; }
+
+.cs-ov { font-size: 15px; line-height: 2; color: var(--muted); }
+.cs-ov b { color: var(--accent); font-size: 18px; }
+.cs-carry { font-size: 12.5px; color: rgba(148, 163, 184, 0.75); }
+
+@media (max-width: 420px) {
+  .cs-d { width: 34px; height: 40px; font-size: 19px; }
+  .cs-pad { gap: 5px; }
+  .cs-pad button { font-size: 17px; padding: 9px 0; }
+}

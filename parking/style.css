@@ -1,0 +1,78 @@
+/* 移个车先专属样式：6×6 停车场（骨架来自 ../shared/base.css）
+   地面是一层 36 个格子，车辆是叠在上面的一层绝对定位方块，用百分比摆位，缩放到任何屏宽都不糊 */
+:root { --accent: #f87171; --accent-2: #38bdf8; --app-width: 560px; }
+
+.board-wrap {
+  display: block;
+  padding: 18px 14px 6px;
+  background:
+    radial-gradient(circle at 82% 40%, rgba(56, 189, 248, 0.12), transparent 60%),
+    linear-gradient(180deg, #141a22, #07090e);
+}
+.pk-lot { position: relative; width: 100%; aspect-ratio: 1 / 1; margin: 0 auto; max-width: 460px; }
+
+/* 地面格子：一层可点击的 6×6 */
+.pk-cells {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+  gap: 3px;
+}
+.pk-cell {
+  border-radius: 6px;
+  background: rgba(148, 163, 184, 0.07);
+  border: 1px dashed rgba(148, 163, 184, 0.16);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  color: rgba(148, 163, 184, 0.4);
+  cursor: pointer;
+  transition: background 0.12s, box-shadow 0.12s;
+}
+.pk-cell.free { background: rgba(148, 163, 184, 0.1); }
+.pk-cell.slide {
+  background: rgba(56, 189, 248, 0.16);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: inset 0 0 0 1px rgba(56, 189, 248, 0.3);
+}
+.pk-cell.hintcell { background: rgba(251, 191, 36, 0.24); border-color: rgba(251, 191, 36, 0.6); }
+.pk-cell.out { background: rgba(52, 211, 153, 0.2); border-color: rgba(52, 211, 153, 0.55); }
+
+/* 车辆层：pointer-events 关掉，点击全部落到地面格子上 */
+.pk-cars { position: absolute; inset: 0; pointer-events: none; }
+.pk-car {
+  position: absolute;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+  line-height: 1;
+  color: rgba(7, 9, 14, 0.68);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: left 0.11s ease, top 0.11s ease, filter 0.12s, transform 0.12s;
+}
+.pk-car.h { background: linear-gradient(180deg, var(--c1), var(--c2)); }
+.pk-car.v { background: linear-gradient(90deg, var(--c1), var(--c2)); }
+.pk-car.sel { filter: brightness(1.22); transform: scale(1.03); box-shadow: 0 0 0 3px rgba(248, 253, 255, 0.85), 0 3px 0 rgba(0, 0, 0, 0.42); }
+.pk-car.red { font-size: 24px; }
+.pk-car.truck { border-radius: 5px; }
+
+/* 出口画在停车场右边线上 */
+.pk-exit {
+  position: absolute;
+  right: -26px;
+  top: calc(33.3333% + 1px);
+  height: 33.3333%;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  color: var(--amber);
+  opacity: 0.9;
+}
+.pk-msg { margin: 12px 2px 0; min-height: 22px; font-size: 13.5px; color: var(--muted); text-align: center; }
+.pk-msg b { color: var(--text); }
+.pk-msg .pk-hintline { color: var(--amber); }
+
+.ov-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; justify-content: center; margin: 8px 0 2px; font-size: 13px; color: var(--muted); }

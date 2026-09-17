@@ -1,0 +1,97 @@
+/* 面馆高峰期专属样式：点单卡 + 三排工位（骨架来自 ../shared/base.css）
+   所有计时条用百分比宽度，10 帧/秒刷新也够用；卡片是纯 DOM，手机上点起来不费劲 */
+:root { --accent: #fbbf24; --accent-2: #f87171; --app-width: 640px; }
+
+.board-wrap {
+  display: block;
+  padding: 14px 12px 8px;
+  background:
+    radial-gradient(circle at 18% 0%, rgba(251, 191, 36, 0.12), transparent 58%),
+    linear-gradient(180deg, #171310, #08070a);
+}
+.mg-shop { display: flex; flex-direction: column; gap: 10px; }
+.mg-sec { border: 1px solid rgba(148, 163, 184, 0.12); border-radius: 12px; padding: 8px 9px 9px; background: rgba(148, 163, 184, 0.045); }
+.mg-h { margin: 0 0 7px; font-size: 12px; letter-spacing: 0.1em; color: var(--muted); font-weight: 700; }
+
+/* 点单卡片 */
+.mg-orders { display: flex; flex-direction: column; gap: 7px; }
+.mg-card {
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  grid-template-areas: "face body act";
+  align-items: center;
+  gap: 9px;
+  padding: 7px 9px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(30, 27, 24, 0.9), rgba(14, 12, 11, 0.9));
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+}
+.mg-card:active { transform: scale(0.995); }
+.mg-face { grid-area: face; font-size: 25px; line-height: 1; text-align: center; }
+.mg-body { grid-area: body; min-width: 0; }
+.mg-name { font-size: 14px; font-weight: 800; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mg-name i { font-style: normal; font-size: 11.5px; font-weight: 600; color: var(--muted); margin-left: 6px; }
+.mg-bar { height: 5px; border-radius: 999px; background: rgba(148, 163, 184, 0.18); margin-top: 6px; overflow: hidden; }
+.mg-bar i, .mg-bf { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #34d399, #a3e635); }
+.mg-card.urgent .mg-bar i { background: linear-gradient(90deg, #fbbf24, #f87171); }
+.mg-card.angry { border-color: rgba(248, 113, 113, 0.55); background: linear-gradient(180deg, rgba(60, 18, 18, 0.9), rgba(20, 10, 10, 0.92)); }
+.mg-card.angry .mg-bar i { background: #f87171; }
+.mg-state { font-size: 11px; color: var(--muted); margin-top: 5px; letter-spacing: 0.03em; }
+.mg-state b { color: var(--text); }
+.mg-act { grid-area: act; }
+.mg-go {
+  border: 1px solid rgba(251, 191, 36, 0.42);
+  background: linear-gradient(180deg, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0.07));
+  color: #fde68a;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 7px 11px;
+  border-radius: 9px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.mg-go:hover { background: rgba(251, 191, 36, 0.26); }
+.mg-go:active { transform: scale(0.95); }
+.mg-go.done { border-color: rgba(52, 211, 153, 0.5); background: rgba(52, 211, 153, 0.16); color: #a7f3d0; }
+.mg-go.bad { border-color: rgba(248, 113, 113, 0.5); background: rgba(248, 113, 113, 0.14); color: #fecaca; }
+.mg-go.wait { border-color: rgba(148, 163, 184, 0.22); background: rgba(148, 163, 184, 0.08); color: var(--muted); cursor: default; }
+.mg-empty { font-size: 12.5px; color: var(--muted); text-align: center; padding: 6px 0 2px; }
+
+/* 工位格子 */
+.mg-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 7px; }
+.mg-slot {
+  position: relative;
+  min-height: 52px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px dashed rgba(148, 163, 184, 0.24);
+  background: rgba(148, 163, 184, 0.05);
+  font-size: 12px;
+  color: var(--muted);
+  overflow: hidden;
+}
+.mg-slot.busy { border-style: solid; border-color: rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.08); color: var(--text); }
+.mg-slot.hold { border-color: rgba(56, 189, 248, 0.45); background: rgba(56, 189, 248, 0.09); }
+.mg-slot.spoil { border-color: rgba(248, 113, 113, 0.6); background: rgba(248, 113, 113, 0.13); color: #fecaca; }
+.mg-slot.ready { border-color: rgba(52, 211, 153, 0.5); background: rgba(52, 211, 153, 0.1); color: #a7f3d0; }
+.mg-slot em { font-style: normal; display: block; font-weight: 800; font-size: 12.5px; }
+.mg-slot small { display: block; margin-top: 3px; font-size: 10.5px; letter-spacing: 0.04em; }
+.mg-fill { position: absolute; left: 0; bottom: 0; height: 3px; background: var(--amber); }
+.mg-slot.spoil .mg-fill { background: var(--rose); }
+.mg-slot.ready .mg-fill { background: var(--emerald); }
+.mg-slot.pick { box-shadow: inset 0 0 0 1px rgba(253, 224, 71, 0.55); }
+
+.mg-msg { margin: 11px 2px 0; min-height: 22px; font-size: 13.5px; color: var(--muted); text-align: center; }
+.mg-msg b { color: var(--text); }
+.mg-paused { color: var(--amber); font-weight: 800; }
+
+/* 遮罩里的流水 */
+.mg-log { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--muted); text-align: left; }
+.mg-log li { display: flex; gap: 7px; }
+.mg-log b { color: var(--text); font-weight: 700; }
+.mg-log .t { color: rgba(143, 163, 191, 0.7); font-variant-numeric: tabular-nums; min-width: 38px; }
+.mg-flow { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 10px; margin-top: 8px; font-size: 13px; }
+.mg-flow span { color: var(--muted); }
+.mg-flow b { color: var(--text); font-variant-numeric: tabular-nums; }

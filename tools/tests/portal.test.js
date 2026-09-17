@@ -360,18 +360,20 @@ ok(/class="card played/.test(cardHTML(N5_DIFF.grid, 'domino')), '多米诺只换
 const CHIPS5 = chipNames(N5.filters);
 ok(CHIPS5.indexOf('收集') >= 0, '钓鱼佬带来新标签 收集');
 for (const t of ['音乐', '塔防', '图形', '空间']) ok(CHIPS5.indexOf(t) >= 0, '标签 ' + t + ' 在筛选栏里');
-const TAG5 = {
-  收集: 'diaoyu',
-  塔防: 'dangguan,fenjian',
-  音乐: 'jiepaiyu,yingan',
-  图形: 'nonogram,yibihua',
-  空间: 'cube,yibihua',
-  记忆: 'sonar,yingan',
-  物理: 'xigua,plinko,domino',
-};
-for (const t of Object.keys(TAG5)) {
+// 标签命中名单从 home.js 现算，加游戏时不用再来改这张表
+const gameTags = {};
+for (const m of read('home.js').matchAll(/^    id: '([a-z0-9]+)',[\s\S]*?^    tags: \[([^\]]*)\],$/gm)) {
+  gameTags[m[1]] = m[2].split(',').map((x) => x.trim().replace(/^'|'$/g, '')).filter(Boolean);
+}
+ok(Object.keys(gameTags).length === GAME_COUNT, 'home.js 里 ' + GAME_COUNT + ' 款游戏都读到了标签');
+const withTag = (t) => Object.keys(gameTags).filter((id) => gameTags[id].indexOf(t) >= 0).sort().join(',');
+const TAG5 = ['收集', '塔防', '音乐', '图形', '空间', '记忆', '物理'];
+ok(withTag('音乐').split(',').length >= 3 && withTag('音乐').indexOf('guji') >= 0, '鼓机进了「音乐」名单：' + withTag('音乐'));
+ok(withTag('图形').indexOf('parking') >= 0, '移个车先进了「图形」名单：' + withTag('图形'));
+for (const t of TAG5) {
   clickChip(N5.filters, t);
-  ok(cardIds(N5.grid).join(',') === TAG5[t], '按「' + t + '」筛选命中 ' + TAG5[t]);
+  const want = withTag(t);
+  ok(want.length > 0 && cardIds(N5.grid).slice().sort().join(',') === want, '按「' + t + '」筛选命中 ' + want + '（集合比对，不看卡片顺序）');
 }
 clickChip(N5.filters, 'all');
 ok(cardIds(N5.grid).length === GAME_COUNT, '标签筛完回到全部：' + GAME_COUNT + ' 张');

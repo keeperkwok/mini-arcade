@@ -1,0 +1,105 @@
+/* 鼓机十六步专属样式：4 条声部轨 × 16 步网格 + 底部四块打击板（骨架来自 ../shared/base.css）
+   格子是一层按钮，演奏时靠 playhead 列高亮走拍，命中/漏拍用 class 闪一下 */
+:root { --accent: #a78bfa; --accent-2: #22d3ee; --app-width: 700px; }
+
+.board-wrap {
+  display: block;
+  padding: 14px 12px 10px;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(167, 139, 250, 0.14), transparent 55%),
+    linear-gradient(180deg, #12101c, #07060c);
+}
+.gj-stage { display: flex; flex-direction: column; gap: 6px; }
+
+/* 小节尺 */
+.gj-ruler { display: grid; grid-template-columns: 74px 1fr; align-items: end; }
+.gj-marks { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; }
+.gj-mark { font-size: 10px; color: rgba(143, 163, 191, 0.55); text-align: center; font-variant-numeric: tabular-nums; }
+.gj-mark.beat { color: var(--amber); font-weight: 800; }
+.gj-mark.now { color: var(--text); }
+
+/* 轨道 */
+.gj-grid { display: flex; flex-direction: column; gap: 5px; }
+.gj-row { display: grid; grid-template-columns: 74px 1fr; align-items: center; gap: 6px; }
+.gj-lab { font-size: 11.5px; color: var(--muted); white-space: nowrap; letter-spacing: 0.02em; }
+.gj-lab b { display: block; font-size: 15px; }
+.gj-cells { display: grid; grid-template-columns: repeat(16, 1fr); gap: 3px; }
+.gj-cell {
+  position: relative;
+  height: 26px;
+  padding: 0;
+  border-radius: 5px;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(148, 163, 184, 0.06);
+  cursor: pointer;
+  transition: background 0.09s, box-shadow 0.09s, transform 0.09s;
+}
+.gj-cell.beat { border-color: rgba(148, 163, 184, 0.28); background: rgba(148, 163, 184, 0.1); }
+.gj-cell.on { background: linear-gradient(180deg, var(--t1), var(--t2)); border-color: transparent; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3); }
+.gj-cell.ghost::after {
+  content: '⚡';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  color: rgba(7, 6, 12, 0.75);
+}
+.gj-cell.head { box-shadow: 0 0 0 2px rgba(253, 224, 71, 0.85); z-index: 2; }
+.gj-cell.hit { transform: scale(1.16); filter: brightness(1.5); }
+.gj-cell.miss { background: repeating-linear-gradient(45deg, rgba(248, 113, 113, 0.5) 0 3px, rgba(248, 113, 113, 0.16) 3px 6px); }
+.gj-cell.taped { box-shadow: inset 0 0 0 2px rgba(226, 232, 240, 0.55); }
+
+/* 底部打击板 */
+.gj-lanes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+.gj-pad {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 11px;
+  background: linear-gradient(180deg, rgba(30, 27, 45, 0.95), rgba(12, 10, 20, 0.95));
+  color: var(--text);
+  font: inherit;
+  padding: 9px 4px 7px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: transform 0.07s, box-shadow 0.09s, border-color 0.09s;
+}
+.gj-pad b { font-size: 20px; line-height: 1; }
+.gj-pad i { font-style: normal; font-size: 10.5px; color: var(--muted); letter-spacing: 0.1em; }
+.gj-pad span { font-size: 10.5px; color: var(--muted); }
+.gj-pad:active, .gj-pad.lit { transform: translateY(2px); box-shadow: 0 0 0 2px rgba(253, 224, 71, 0.6); border-color: rgba(253, 224, 71, 0.5); }
+.gj-pad.perfect { box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.85); }
+.gj-pad.good { box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.8); }
+.gj-pad.bad { box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.85); }
+
+/* 预设 */
+.gj-presets { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; }
+.gj-preset {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(148, 163, 184, 0.07);
+  color: var(--text);
+  font: inherit;
+  font-size: 12.5px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.gj-preset:hover { border-color: rgba(167, 139, 250, 0.55); }
+.gj-preset.active { border-color: rgba(167, 139, 250, 0.8); background: rgba(167, 139, 250, 0.18); }
+
+.gj-msg { margin: 11px 2px 0; min-height: 22px; font-size: 13.5px; color: var(--muted); text-align: center; }
+.gj-msg b { color: var(--text); }
+.gj-msg .p { color: var(--emerald); font-weight: 800; }
+.gj-msg .g { color: var(--cyan); font-weight: 800; }
+.gj-msg .m { color: var(--rose); font-weight: 800; }
+.gj-judge { font-size: 22px; font-weight: 900; letter-spacing: 0.06em; text-align: center; min-height: 26px; }
+.gj-judge.p { color: var(--emerald); }
+.gj-judge.g { color: var(--cyan); }
+.gj-judge.m { color: var(--rose); }
+
+.ov-key { display: flex; gap: 8px; justify-content: center; margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+.ov-score { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px 12px; margin-top: 8px; font-size: 13px; }
+.ov-score span { color: var(--muted); }
+.ov-score b { color: var(--text); font-variant-numeric: tabular-nums; }

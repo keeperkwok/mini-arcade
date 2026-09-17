@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>鼓机十六步 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🥁</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 700px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🥁</a>
+    <div class="title">
+      <h1>鼓机十六步</h1>
+      <p class="sub">GU JI · 先写一段律动，再亲手把它敲出来</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重开一局" aria-label="重开一局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="loose">热身</button>
+    <button data-diff="funk">放克</button>
+    <button data-diff="blast">炸场</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">状态</span><span class="value info" id="mode">编曲</span></div>
+    <div class="chip"><span class="label">速度</span><span class="value" id="bpm">96</span></div>
+    <div class="chip"><span class="label">第几段</span><span class="value warn" id="bars">0/12</span></div>
+    <div class="chip"><span class="label">连击</span><span class="value" id="combo">0</span></div>
+    <div class="chip"><span class="label">准头</span><span class="value good" id="acc">—</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value" id="score">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <div class="gj-stage" id="stage" aria-label="鼓机">
+        <div class="gj-ruler" id="ruler"></div>
+        <div class="gj-grid" id="grid"></div>
+        <div class="gj-lanes" id="lanes"></div>
+      </div>
+      <p class="gj-msg" id="msg">点格子写鼓点：<b>底鼓 / 军鼓 / 踩镲 / 铃鼓</b> 四条道，每段十六步</p>
+      <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+    </div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnPlay" title="开始演奏 (回车)">▶<span>演奏</span></button>
+    <button class="tool" id="btnPause" title="暂停 (空格)">⏸<span>暂停</span></button>
+    <button class="tool" id="btnClear" title="清空鼓点 (C)">🧹<span>清空</span><b id="noteN">0</b></button>
+    <button class="tool" id="btnRand" title="掷一把骰子 (R)">🎲<span>骰子</span></button>
+    <button class="tool" id="btnStats" title="本机战绩 (T)">📊<span>战绩</span></button>
+  </section>
+
+  <section class="gj-presets" id="presets" aria-label="预设节奏"></section>
+
+  <footer class="tips">
+    <p><b>编曲时机器替你打，演奏时鼓声得你亲手敲出来</b>：漏掉那一拍只剩闷响 —— 写得越密风险倍率越高，段与段之间还会提速</p>
+    <p><kbd>点格子</kbd> 开关音符 · <kbd>D F J K</kbd> 敲四条道 · <kbd>回车</kbd> 开始演奏 · <kbd>空格</kbd> 暂停 · <kbd>R</kbd> 骰子 · <kbd>C</kbd> 清空 · <kbd>T</kbd> 战绩</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

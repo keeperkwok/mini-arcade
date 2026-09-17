@@ -1,0 +1,38 @@
+/* 摸黑专属样式：夜视牢房（骨架来自 ../shared/base.css） */
+:root { --accent: #22d3ee; --accent-2: #a3e635; --ink: #04222b; --app-width: 620px; --board-ratio: 14 / 9; }
+
+body { background: #04060c; }
+.board-wrap {
+  display: block;
+  padding: 0;
+  background: linear-gradient(180deg, #0a1020, #03050b);
+  border-color: rgba(34, 211, 238, 0.18);
+  box-shadow: 0 24px 60px rgba(2, 6, 23, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+canvas { display: block; width: 100%; aspect-ratio: var(--board-ratio); cursor: crosshair; touch-action: manipulation; }
+
+.tools { grid-template-columns: repeat(4, 1fr); }
+.tool.armed {
+  border-color: rgba(34, 211, 238, 0.7);
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.28), rgba(163, 230, 53, 0.18));
+  color: var(--text);
+}
+.tool.armed span { color: var(--accent); }
+
+.diff button { min-width: 62px; }
+.stats { grid-template-columns: repeat(3, 1fr); }
+
+.mh-ov { font-size: 14px; line-height: 2; color: var(--muted); }
+.mh-ov b { color: var(--accent); font-size: 16px; }
+.mh-legend { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
+.mh-legend i { font-style: normal; }
+
+@media (max-width: 460px) {
+  .stats { gap: 6px; }
+  .chip .value { font-size: 17px; }
+  .tools { gap: 5px; }
+  .tool { font-size: 16px; }
+}
+
+.mh-line { min-height: 20px; padding: 8px 14px 12px; text-align: center; font-size: 12.5px; line-height: 1.7; color: var(--muted); }
+.mh-line b { color: var(--accent); }
