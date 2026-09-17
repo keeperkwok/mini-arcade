@@ -1,0 +1,85 @@
+/* 分拣工厂专属样式：9×6 传送带 + 包裹队列（骨架来自 ../shared/base.css） */
+:root { --accent: #fbbf24; --accent-2: #34d399; --ink: #10231c; --app-width: 620px; }
+
+.board-wrap {
+  display: block;
+  padding: 12px;
+  background:
+    repeating-linear-gradient(90deg, rgba(148, 163, 184, 0.05) 0 2px, transparent 2px 26px),
+    radial-gradient(circle at 20% 0%, rgba(251, 191, 36, 0.14), transparent 62%),
+    linear-gradient(180deg, #14182a, #080a12);
+}
+
+/* 待上线的包裹 */
+.fj-queue { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; min-height: 26px; margin-bottom: 9px; }
+.fj-queue .q {
+  font-size: 15px; line-height: 1; padding: 4px 5px 3px; border-radius: 7px;
+  background: rgba(148, 163, 184, 0.14); border: 1px solid rgba(148, 163, 184, 0.26);
+}
+.fj-queue .q.rj { background: rgba(244, 63, 94, 0.18); border-color: rgba(244, 63, 94, 0.5); }
+.fj-queue .more { font-size: 11px; font-weight: 700; color: var(--muted); }
+
+/* 传送带 */
+.fj-belt { display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px; }
+.fj-c {
+  position: relative;
+  font: inherit; font-size: 15px; padding: 0; margin: 0;
+  aspect-ratio: 1 / 1; min-height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(226, 232, 240, 0.62);
+  background: linear-gradient(180deg, rgba(51, 65, 85, 0.55), rgba(15, 23, 42, 0.75));
+  border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 7px;
+  cursor: pointer;
+  transition: border-color 0.12s ease, transform 0.08s ease, box-shadow 0.14s ease;
+}
+.fj-c .ar { font-style: normal; font-weight: 800; font-size: 17px; letter-spacing: -0.02em; }
+.fj-c:hover { border-color: rgba(251, 191, 36, 0.6); }
+.fj-c:active { transform: scale(0.93); }
+.fj-c.cur { border-color: var(--accent); box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.5), 0 0 14px rgba(251, 191, 36, 0.25); }
+.fj-c.inl { background: linear-gradient(180deg, rgba(52, 211, 153, 0.3), rgba(15, 23, 42, 0.8)); }
+.fj-c.inl::after {
+  content: '入口'; position: absolute; left: 2px; top: 1px;
+  font-size: 7.5px; font-weight: 800; letter-spacing: 0.02em; color: #a7f3d0;
+}
+
+/* 货架 */
+.fj-c.sf { background: linear-gradient(180deg, rgba(2, 6, 23, 0.5), rgba(2, 6, 23, 0.85)); cursor: default; }
+.fj-c.sf .sf-i { font-style: normal; font-size: 16px; }
+.fj-c.sf0 { border-color: rgba(56, 189, 248, 0.65); box-shadow: inset 0 0 16px rgba(56, 189, 248, 0.28); }
+.fj-c.sf1 { border-color: rgba(251, 191, 36, 0.6); box-shadow: inset 0 0 16px rgba(251, 191, 36, 0.24); }
+.fj-c.sf2 { border-color: rgba(167, 139, 250, 0.6); box-shadow: inset 0 0 16px rgba(167, 139, 250, 0.26); }
+.fj-c.sf3 { border-color: rgba(148, 163, 184, 0.55); box-shadow: inset 0 0 14px rgba(148, 163, 184, 0.2); }
+.fj-c.gt { animation: fj-pop 0.5s ease infinite alternate; }
+@keyframes fj-pop { to { transform: scale(1.09); filter: brightness(1.4); } }
+
+/* 障碍 */
+.fj-c.wl { background: rgba(2, 6, 23, 0.82); border-color: rgba(100, 116, 139, 0.3); cursor: default; }
+.fj-c.wl .wt { color: rgba(100, 116, 139, 0.75); font-size: 15px; }
+.fj-c.ct { background: radial-gradient(circle at 50% 50%, rgba(244, 63, 94, 0.32), rgba(2, 6, 23, 0.9)); cursor: default; }
+.fj-c.ct .hz { font-style: normal; font-size: 15px; }
+
+/* 在跑的包裹 */
+.fj-c .bx {
+  position: absolute; right: 1px; bottom: 0;
+  font-style: normal; font-size: 17px; line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+  animation: fj-run 0.34s ease infinite alternate;
+}
+@keyframes fj-run { to { transform: translateY(-2px); } }
+.fj-c .bx.rj { outline: 2px solid rgba(244, 63, 94, 0.85); outline-offset: 1px; border-radius: 5px; }
+.fj-c .cn {
+  position: absolute; left: 2px; top: 1px;
+  font-size: 8px; font-weight: 800; color: #fde68a;
+}
+
+/* 提示虚线 */
+.fj-c.pl { border-color: rgba(56, 189, 248, 0.9); background: linear-gradient(180deg, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.8)); }
+.fj-c.pl .ar { color: #7dd3fc; }
+
+.fj-msg {
+  min-height: 42px; margin: 11px 2px 2px;
+  font-size: 12.5px; line-height: 1.6; color: var(--muted);
+}
+.fj-msg b { color: var(--text); }
+.fj-list { font-size: 13.5px; line-height: 2; color: var(--muted); }
+.fj-list b { color: var(--accent); }

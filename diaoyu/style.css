@@ -1,0 +1,73 @@
+/* 钓鱼佬专属样式：水面侧视图 + 张力表（骨架来自 ../shared/base.css） */
+:root { --accent: #38bdf8; --accent-2: #fbbf24; --ink: #071a24; --app-width: 560px; }
+
+.board-wrap {
+  display: block;
+  padding: 12px;
+  background:
+    radial-gradient(ellipse at 50% -20%, rgba(251, 191, 36, 0.18), transparent 55%),
+    linear-gradient(180deg, #123047, #04101a 70%);
+}
+
+.dy-scene { position: relative; height: 214px; overflow: hidden; border-radius: 14px; border: 1px solid rgba(56, 189, 248, 0.22); }
+.dy-water { position: absolute; inset: 44px 0 0; display: grid; grid-template-rows: repeat(3, 1fr); }
+.dy-layer {
+  font: inherit; font-size: 12px; padding: 0 12px; margin: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  color: #cfe9ff; background: linear-gradient(90deg, rgba(56, 189, 248, 0.10), rgba(2, 6, 23, 0.18));
+  border: 0; border-top: 1px dashed rgba(148, 163, 184, 0.22);
+  transition: background 0.16s ease, box-shadow 0.16s ease;
+}
+.dy-layer b { font-size: 15px; letter-spacing: 0.14em; opacity: 0.9; }
+.dy-layer:hover { background: rgba(56, 189, 248, 0.2); }
+.dy-layer.on { background: linear-gradient(90deg, rgba(56, 189, 248, 0.34), rgba(56, 189, 248, 0.06)); box-shadow: inset 3px 0 0 var(--accent-2); }
+.dy-layer:disabled { opacity: 0.5; cursor: default; }
+.dy-layer::after { content: ''; position: absolute; }
+
+/* 鱼竿、鱼线与鱼漂 */
+.dy-rod { position: absolute; left: 10px; top: 0; height: 74px; }
+.dy-rod .dy-tip { font-style: normal; font-size: 26px; color: #e2e8f0; }
+.dy-string {
+  position: absolute; left: 16px; top: 22px; width: 1px; height: 34px;
+  background: linear-gradient(180deg, rgba(226, 232, 240, 0.75), rgba(226, 232, 240, 0.25));
+  transition: height 0.1s linear, background 0.12s ease;
+}
+.dy-string.taut { background: linear-gradient(180deg, #fde68a, #f87171); }
+.dy-bob {
+  position: absolute; left: 11px; top: 52px; font-style: normal; font-size: 13px; line-height: 1;
+  color: #f87171; text-shadow: 0 0 8px rgba(248, 113, 113, 0.7);
+  transition: transform 0.1s ease;
+}
+.dy-bob.nod { animation: dy-nod 0.22s ease infinite alternate; color: #fbbf24; }
+@keyframes dy-nod { to { transform: translateY(9px) scale(1.25); } }
+
+/* 水下的鱼影：位置 = 还剩多少线 */
+.dy-shadow {
+  position: absolute; left: 0; top: 0; width: 100%;
+  font-style: normal; font-size: 22px; text-align: center;
+  color: #7dd3fc; filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
+  transition: transform 0.08s linear;
+}
+.dy-shadow.burst { color: #fca5a5; animation: dy-shake 0.1s linear infinite; }
+@keyframes dy-shake { 50% { transform: translateX(4px); } }
+
+/* 张力表 */
+.dy-gauge {
+  position: relative; height: 17px; margin: 11px 0 0; overflow: hidden;
+  border-radius: 999px; border: 1px solid rgba(148, 163, 184, 0.28);
+  background: linear-gradient(90deg, rgba(52, 211, 153, 0.3) 0 22%, rgba(251, 191, 36, 0.28) 22% 74%, rgba(244, 63, 94, 0.42) 74% 100%);
+}
+.dy-fill {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+  background: linear-gradient(90deg, rgba(226, 232, 240, 0.30), rgba(226, 232, 240, 0.55));
+  border-right: 2px solid #f8fafc;
+}
+.dy-fill.hot { background: linear-gradient(90deg, rgba(248, 113, 113, 0.35), rgba(244, 63, 94, 0.8)); }
+.dy-mark { position: absolute; top: -2px; bottom: -2px; left: 78%; width: 2px; background: #fecaca; }
+
+.dy-state { margin: 9px 2px 0; font-size: 13px; font-weight: 700; color: var(--cyan); letter-spacing: 0.02em; }
+.dy-msg { min-height: 38px; margin: 3px 2px 0; font-size: 12.5px; line-height: 1.55; color: var(--muted); }
+.dy-msg b { color: var(--text); }
+.dy-list { font-size: 13px; line-height: 1.9; color: var(--muted); text-align: left; }
+.dy-list b { color: var(--accent-2); }
+.dy-list i { font-style: normal; color: var(--text); }

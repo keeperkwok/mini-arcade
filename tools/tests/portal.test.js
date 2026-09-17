@@ -290,7 +290,7 @@ for (const [id, html] of [['pianpangzhen', piz], ['sanjiao', sj], ['yiziqianjin'
   ok((html.match(/class="rec-item/g) || []).length === 2, id + ' 卡片铺满两条纪录（多余的留在游戏内战绩页，不会被静默挤掉）');
   ok(!/undefined|NaN/.test(html), id + ' 卡片区无 undefined/NaN');
 }
-ok(/<b>3<small>\/30<\/small><\/b><span>玩过/.test(TXT.hud.innerHTML), '统计条按 30 款计算，玩过 3 款');
+ok(new RegExp('<b>3<small>\\/' + GAME_COUNT + '<\\/small><\\/b><span>玩过').test(TXT.hud.innerHTML), '统计条按 ' + GAME_COUNT + ' 款计算，玩过 3 款');
 ok(/<b>7,044<\/b>/.test(TXT.hud.innerHTML), '三款分数并入累计最高分 2,704+3,440+900 = 7,044');
 const TXT_MUTE = mountHome({ seed: { 'rad.muted': '1', 'proof.muted': '1', 'han.muted': '1' } });
 for (const id of ['pianpangzhen', 'sanjiao', 'yiziqianjin']) {
@@ -316,7 +316,7 @@ ok(/🚩 累计咬出 25 种/.test(yao), '卡片显示历代累计咬出的读�
 ok(/class="card played/.test(yao), '咬文嚼字有成绩即算玩过');
 ok((yao.match(/class="rec-item/g) || []).length === 2, '咬文嚼字卡片只铺两条纪录');
 ok(!/undefined|NaN|3418<\/b><\/span>/.test(yao.replace(/🏆 3,418 分/, '')), '卡片区不泄漏原始存档串');
-ok(/<b>4<small>\/30<\/small><\/b><span>玩过/.test(YAO.hud.innerHTML), '加上咬文嚼字共 4 款玩过');
+ok(new RegExp('<b>4<small>\\/' + GAME_COUNT + '<\\/small><\\/b><span>玩过').test(YAO.hud.innerHTML), '加上咬文嚼字共 4 款玩过');
 ok(/<b>10,462<\/b>/.test(YAO.hud.innerHTML), '四款文字游戏分数并进累计最高分 7,044+3,418 = 10,462');
 const YAO_MUTE = mountHome({ seed: { 'yao.muted': '1' } });
 ok(!/class="card played/.test(cardHTML(YAO_MUTE.grid, 'yaowenjiaozhi')), '咬文嚼字只点过静音不算玩过');
@@ -328,5 +328,52 @@ ok(cardIds(YAO.grid).join(',') === 'pianpangzhen,sanjiao,yiziqianjin,yaowenjiaoz
   '按「文字」筛选现在恰好命中四款');
 clickChip(YAO.filters, 'all');
 ok(cardIds(YAO.grid).indexOf('yaowenjiaozhi') > cardIds(YAO.grid).indexOf('yiziqianjin'), '新游戏排在注册表末尾，不会插队');
+
+/* ==================== 十一、五款新游：一笔画 / 绝对音感 / 分拣工厂 / 钓鱼佬 / 多米诺 ==================== */
+const NEW5 = [
+  ['yibihua', '一笔画', 'yi', 'lines', '累计描线 1,234 条'],
+  ['yingan', '绝对音感', 'yin', 'right', '累计听对 1,234 题'],
+  ['fenjian', '分拣工厂', 'fj', 'sort', '累计入库 1,234 件'],
+  ['diaoyu', '钓鱼佬', 'dy', 'catch', '累计起鱼 1,234 条'],
+  ['domino', '多米诺', 'dm', 'fall', '累计倒牌 1,234 张'],
+];
+const SEED5 = {};
+for (const [, , pfx, unit] of NEW5) { SEED5[pfx + '.best'] = '1234'; SEED5[pfx + '.' + unit] = '1234'; }
+const N5 = mountHome({ seed: SEED5 });
+for (const [id, name, , , rec] of NEW5) {
+  const html = cardHTML(N5.grid, id);
+  ok(/🏆 1,234 分/.test(html), name + ' 卡片显示最高分（带千分位）');
+  ok(html.indexOf('🚩 ' + rec) >= 0, name + ' 卡片显示累计纪录「' + rec + '」');
+  ok(/class="card played/.test(html), name + ' 有成绩即算玩过');
+  ok((html.match(/class="rec-item/g) || []).length === 2, name + ' 卡片只铺两条纪录（多余的留在游戏内战绩页）');
+  ok(!/undefined|NaN/.test(html), name + ' 卡片区无 undefined/NaN');
+}
+ok(new RegExp('<b>5<small>\\/' + GAME_COUNT + '<\\/small><\\/b><span>玩过').test(N5.hud.innerHTML),
+  '五款新游一起计入首页统计 5/' + GAME_COUNT);
+ok(/<b>6,170<\/b><span>累计最高分/.test(N5.hud.innerHTML), '五款分数并进累计最高分 1,234 × 5 = 6,170');
+const N5_MUTE = mountHome({ seed: { 'yi.muted': '1', 'yin.muted': '1', 'fj.muted': '1', 'dy.muted': '1', 'dm.muted': '1' } });
+for (const [id, name] of NEW5) {
+  ok(!/class="card played/.test(cardHTML(N5_MUTE.grid, id)), name + ' 只点过静音不算玩过');
+}
+const N5_DIFF = mountHome({ seed: { 'dm.diff': 'pro' } });
+ok(/class="card played/.test(cardHTML(N5_DIFF.grid, 'domino')), '多米诺只换过骨牌规格也算玩过');
+const CHIPS5 = chipNames(N5.filters);
+ok(CHIPS5.indexOf('收集') >= 0, '钓鱼佬带来新标签 收集');
+for (const t of ['音乐', '塔防', '图形', '空间']) ok(CHIPS5.indexOf(t) >= 0, '标签 ' + t + ' 在筛选栏里');
+const TAG5 = {
+  收集: 'diaoyu',
+  塔防: 'dangguan,fenjian',
+  音乐: 'jiepaiyu,yingan',
+  图形: 'nonogram,yibihua',
+  空间: 'cube,yibihua',
+  记忆: 'sonar,yingan',
+  物理: 'xigua,plinko,domino',
+};
+for (const t of Object.keys(TAG5)) {
+  clickChip(N5.filters, t);
+  ok(cardIds(N5.grid).join(',') === TAG5[t], '按「' + t + '」筛选命中 ' + TAG5[t]);
+}
+clickChip(N5.filters, 'all');
+ok(cardIds(N5.grid).length === GAME_COUNT, '标签筛完回到全部：' + GAME_COUNT + ' 张');
 
 report('首页进度中心');

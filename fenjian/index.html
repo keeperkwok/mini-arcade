@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>分拣工厂 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏭</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 620px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🏭</a>
+    <div class="title">
+      <h1>分拣工厂</h1>
+      <p class="sub">FEN JIAN GONG CHANG · 不改路，改方向</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重开一局" aria-label="重开一局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="calm">闲时夜班</button>
+    <button data-diff="daily">白班流水线</button>
+    <button data-diff="promo">大促</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">第几班</span><span class="value info" id="lv">1</span></div>
+    <div class="chip"><span class="label">待处理</span><span class="value" id="todo">0</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value good" id="score">0</span></div>
+    <div class="chip"><span class="label">扳手</span><span class="value warn" id="wrench">7</span></div>
+    <div class="chip"><span class="label">信誉</span><span class="value bad" id="lives">3</span></div>
+    <div class="chip"><span class="label">时限</span><span class="value" id="clock">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <div class="fj-queue" id="queue" aria-label="待上线包裹"></div>
+      <div class="fj-belt" id="belt" aria-label="传送带"></div>
+      <p class="fj-msg" id="msg">先看清货架，再动扳手</p>
+      <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+    </div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnHint" title="画出路线 (H)">🗺️<span>画路线</span><b id="hintN">3</b></button>
+    <button class="tool" id="btnPlan" title="看下一件该去哪 (P)">📋<span>下一件</span></button>
+    <button class="tool" id="btnStats" title="本机战绩 (T)">📊<span>战绩</span></button>
+  </section>
+
+  <footer class="tips">
+    <p>每格地板就是一个箭头，包裹顺箭头走。<b>点一格转 90°</b>（右键反转），<b>一格一个扳手</b>：送错架、掉进碎包机、超时欠单才扣信誉，掉出车间只是重新排队</p>
+    <p><kbd>方向键</kbd> 移动光标 · <kbd>空格</kbd> 顺转 · <kbd>X</kbd> 逆转 · <kbd>H</kbd> 画路线 · <kbd>P</kbd> 下一件 · <kbd>T</kbd> 战绩 · <kbd>N</kbd> 重开 · <kbd>M</kbd> 静音</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

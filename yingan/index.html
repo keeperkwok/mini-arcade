@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>绝对音感 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎧</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 560px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🎧</a>
+    <div class="title">
+      <h1>绝对音感</h1>
+      <p class="sub">JUE DUI YIN GAN · 用耳朵而不是眼睛</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重开一局" aria-label="重开一局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="warm">热身房</button>
+    <button data-diff="pro">琴房</button>
+    <button data-diff="hall">演奏厅</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">第几关</span><span class="value info" id="lv">1</span></div>
+    <div class="chip"><span class="label">轮次</span><span class="value" id="mode">辨音程</span></div>
+    <div class="chip"><span class="label">耳力</span><span class="value warn" id="ears">3</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value good" id="score">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <div class="ga-notes" id="notes" aria-label="音符"></div>
+      <div class="ga-keys" id="keys" aria-label="琴键"></div>
+      <div class="ga-opts" id="answers" aria-label="答案选项"></div>
+      <p class="ga-msg" id="msg">戴上耳机，先听一遍</p>
+      <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+    </div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnReplay" title="再听一遍 (空格)">🔁<span>再听一遍</span><b id="reN">3</b></button>
+    <button class="tool" id="btnHint" title="缩小范围 (H)">💡<span>透口气</span><b id="hintN">3</b></button>
+    <button class="tool" id="btnStats" title="本机战绩 (T)">📊<span>战绩</span></button>
+  </section>
+
+  <footer class="tips">
+    <p><b>耳力</b>是唯一资源：答错扣一分耳力，但会<b>退还一次回放</b> · 辨音程点选项，跟弹旋律用 <kbd>A S D F G H J K</kbd> 按回去</p>
+    <p><kbd>空格</kbd> 再听一遍 · <kbd>1-6</kbd> 选项 · <kbd>H</kbd> 提示（旋律轮里 H 是琴键，点 💡） · <kbd>T</kbd> 战绩 · <kbd>N</kbd> 重开 · <kbd>M</kbd> 静音</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+/* 多米诺专属样式：木桌俯视台（骨架来自 ../shared/base.css） */
+:root { --accent: #fbbf24; --accent-2: #34d399; --ink: #1a1206; --app-width: 660px; }
+
+.board-wrap { padding: 10px; background: linear-gradient(160deg, #4a2f18, #2a1a0c 60%, #1a1008); }
+#cv {
+  display: block; width: 100%; aspect-ratio: 620 / 400; touch-action: none; cursor: crosshair;
+  border-radius: 12px; background: transparent;
+}
+.dm-state {
+  margin: 8px 2px 2px; font-size: 12px; letter-spacing: 0.04em; color: #fde68a;
+  font-variant-numeric: tabular-nums;
+}
+.dm-msg { margin: 2px; font-size: 12.5px; line-height: 1.65; color: #e7d8bd; }
+.dm-msg b { color: #fff; }
+.dm-msg .bad { color: #fca5a5; }
+.dm-msg .ok { color: #6ee7b7; }
+
+.dm-tools { grid-template-columns: repeat(4, 1fr); }
+
+.dm-list { margin-top: 10px; font-size: 13px; line-height: 1.9; }
+.dm-list i { font-style: normal; }
+.dm-row { display: flex; justify-content: space-between; gap: 10px; }
+.dm-row b { color: var(--accent); }
+.dm-why { margin-top: 6px; color: #fca5a5; font-size: 13px; }

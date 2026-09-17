@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>钓鱼佬 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎣</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 560px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🎣</a>
+    <div class="title">
+      <h1>钓鱼佬</h1>
+      <p class="sub">DIAO YU LAO · 一根线的博弈</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnStats" class="icon-btn" title="本机战绩 (T)" aria-label="本机战绩">📊</button>
+      <button id="btnNew" class="icon-btn" title="重开一局" aria-label="重开一局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="时段选择">
+    <button data-diff="dawn">清晨</button>
+    <button data-diff="noon">正午</button>
+    <button data-diff="night">夜钓</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">渔获</span><span class="value good" id="score">0</span></div>
+    <div class="chip"><span class="label">鱼线</span><span class="value bad" id="lines">3</span></div>
+    <div class="chip"><span class="label">天光</span><span class="value info" id="clock">0</span></div>
+    <div class="chip"><span class="label">张力</span><span class="value warn" id="ten">0</span></div>
+    <div class="chip"><span class="label">线长</span><span class="value" id="dist">0</span></div>
+    <div class="chip"><span class="label">连竿</span><span class="value" id="combo">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <div class="dy-scene" id="scene" aria-label="钓点">
+        <div class="dy-rod"><i class="dy-tip">╲</i><i class="dy-string" id="string"></i><i class="dy-bob" id="bob">●</i></div>
+        <div class="dy-water" id="water">
+          <button class="dy-layer" data-l="0"><span>浅滩 🌿</span><b id="fa0"></b></button>
+          <button class="dy-layer" data-l="1"><span>中层 🪸</span><b id="fa1"></b></button>
+          <button class="dy-layer" data-l="2"><span>深潭 🌑</span><b id="fa2"></b></button>
+        </div>
+        <i class="dy-shadow" id="shadow"></i>
+      </div>
+      <div class="dy-gauge" id="gauge"><i class="dy-fill" id="fill"></i><i class="dy-mark" id="mark"></i></div>
+      <p class="dy-state" id="state">先选一层水，再抛竿</p>
+      <p class="dy-msg" id="msg">按住收线，感觉线绷紧就松手 —— 断线事小，惊窝事大</p>
+      <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+    </div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnCast" title="抛竿 (C)">🎣<span>抛竿</span><b id="layN">浅</b></button>
+    <button class="tool" id="btnReel" title="按住收线（空格）">💪<span>收线</span></button>
+    <button class="tool" id="btnChum" title="打窝招鱼 (H)">🌾<span>打窝</span><b id="chumN">3</b></button>
+  </section>
+
+  <footer class="tips">
+    <p><b>咬钩那一下</b>要立刻提竿；搏鱼时<b>按住收线</b>把线长收到 0，<b>张力爆表就断线</b> —— 鱼猛窜的时候千万别硬拉</p>
+    <p><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> 选水层 · <kbd>C</kbd> 抛竿 · <kbd>空格</kbd> 提竿 / 按住收线 · <kbd>H</kbd> 打窝 · <kbd>T</kbd> 战绩 · <kbd>N</kbd> 重开 · <kbd>M</kbd> 静音</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

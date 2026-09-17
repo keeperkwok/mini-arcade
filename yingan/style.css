@@ -1,0 +1,75 @@
+/* 绝对音感专属样式：一小排琴键 + 答题 chips（骨架来自 ../shared/base.css） */
+:root { --accent: #a78bfa; --accent-2: #22d3ee; --ink: #1a1040; --app-width: 560px; }
+
+.board-wrap {
+  display: block;
+  padding: 14px 14px 0;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(167, 139, 250, 0.20), transparent 60%),
+    linear-gradient(180deg, #131024, #08070f);
+}
+
+/* 音符：只表示「有几个音、正在响哪几个」，绝不把音名写在屏幕上 */
+.ga-notes { display: flex; gap: 7px; justify-content: center; min-height: 22px; margin-bottom: 12px; }
+.ga-notes .np {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: rgba(148, 163, 184, 0.22);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.25);
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+.ga-notes .np.on { background: var(--accent); transform: scale(1.5); box-shadow: 0 0 16px rgba(167, 139, 250, 0.8); }
+.ga-notes .np.mel { border-radius: 4px; }
+
+/* 琴键 */
+.ga-keys { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px; }
+.ga-keys .key {
+  font: inherit; font-size: 11px; line-height: 1.25;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  height: 62px; padding: 0;
+  color: #334155; background: linear-gradient(180deg, #f8fafc, #cbd5e1);
+  border: 1px solid rgba(15, 23, 42, 0.35); border-radius: 6px 6px 9px 9px;
+  cursor: pointer; opacity: 0.42;
+  transition: transform 0.09s ease, box-shadow 0.12s ease;
+}
+.ga-keys .key b { font-size: 9.5px; color: #94a3b8; letter-spacing: 0.04em; }
+.ga-keys.hot .key { opacity: 1; }
+.ga-keys .key.live { box-shadow: inset 0 -6px 12px rgba(148, 163, 184, 0.28); }
+.ga-keys .key.flash { background: linear-gradient(180deg, #ede9fe, #a78bfa); }
+.ga-keys .key:hover:not(:disabled) { transform: translateY(-3px); }
+.ga-keys .key:active:not(:disabled) { transform: translateY(2px) scale(0.98); }
+.ga-keys .key:disabled { cursor: default; }
+
+/* 答题选项 */
+.ga-opts { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; margin-top: 12px; min-height: 40px; }
+.ga-opts .opt {
+  font: inherit; font-size: 13.5px; font-weight: 700;
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 13px; border-radius: 999px; cursor: pointer;
+  color: var(--text); background: rgba(148, 163, 184, 0.10);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  transition: transform 0.1s ease, border-color 0.14s ease, background 0.14s ease;
+}
+.ga-opts .opt small {
+  font-size: 10px; font-weight: 700; color: var(--muted);
+  background: rgba(2, 6, 23, 0.5); border-radius: 6px; padding: 1px 5px;
+}
+.ga-opts .opt:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-2px); }
+.ga-opts .opt:active:not(:disabled) { transform: scale(0.96); }
+.ga-opts .opt:disabled { opacity: 0.4; cursor: default; }
+.ga-opts.wide .opt { font-size: 12.5px; padding: 7px 10px; }
+
+.ga-msg {
+  min-height: 44px; margin: 10px -14px 0; padding: 10px 16px 13px;
+  text-align: center; font-size: 13px; line-height: 1.65; color: var(--muted);
+  border-top: 1px solid rgba(148, 163, 184, 0.14); background: rgba(8, 7, 15, 0.72);
+}
+.ga-msg b { color: var(--accent); }
+
+.ga-ans { font-size: 16px; font-weight: 700; color: var(--accent-2); line-height: 1.6; }
+.ga-list { font-size: 14px; line-height: 2; color: var(--muted); }
+.ga-list b { color: var(--accent); font-size: 17px; }
+
+@media (max-width: 420px) {
+  .ga-keys .key { height: 54px; font-size: 10px; }
+  .ga-opts .opt { font-size: 12.5px; }
+}

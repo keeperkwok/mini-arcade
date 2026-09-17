@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>一笔画 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖌️</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 520px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🖌️</a>
+    <div class="title">
+      <h1>一笔画</h1>
+      <p class="sub">YI BI HUA · 不抬笔 不重描</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重开一局" aria-label="重开一局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="doodle">随便涂涂</button>
+    <button data-diff="normal">一笔到底</button>
+    <button data-diff="master">不许洗笔</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">第几关</span><span class="value info" id="lv">1</span></div>
+    <div class="chip"><span class="label">已描线</span><span class="value" id="lines">0/0</span></div>
+    <div class="chip"><span class="label">墨滴</span><span class="value warn" id="ink">3</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value good" id="score">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <canvas id="cv" aria-label="点阵与线段"></canvas>
+      <p class="yb-msg" id="msg">点一个空心圈下笔，再点与它有线相连的点</p>
+      <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+    </div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnHint" title="下一笔该走哪 (H)">💡<span>指一笔</span><b id="hintN">3</b></button>
+    <button class="tool" id="btnWash" title="洗笔重来，费一滴墨 (R)">🖌<span>洗笔</span></button>
+    <button class="tool" id="btnStats" title="本机战绩 (T)">📊<span>战绩</span></button>
+  </section>
+
+  <footer class="tips">
+    <p>每条线<b>恰好描一遍</b>才算过：只有连着<b>奇数条线</b>的点能当起点，别把剩下的线描成孤岛</p>
+    <p>死一次笔洗一滴墨 · <kbd>H</kbd> 指一笔 · <kbd>R</kbd> 洗笔 · <kbd>T</kbd> 战绩 · <kbd>N</kbd> 重开 · <kbd>M</kbd> 静音</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
