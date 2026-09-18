@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>华容道 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏮</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 520px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🏮</a>
+    <div class="title">
+      <h1>华容道</h1>
+      <p class="sub">HUA RONG DAO · 曹操只能挪，不能飞</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重开一局" aria-label="重开一局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="story">慢慢挪</button>
+    <button data-diff="classic">标准局</button>
+    <button data-diff="blitz">急行军</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">第几关</span><span class="value info" id="lv">1</span></div>
+    <div class="chip"><span class="label">最优</span><span class="value info" id="par">0</span></div>
+    <div class="chip"><span class="label">已挪</span><span class="value" id="steps">0</span></div>
+    <div class="chip"><span class="label">剩余</span><span class="value warn" id="clock">0:00</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value" id="score">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <div class="kl-frame" id="board" aria-label="华容道棋盘">
+        <div class="kl-pieces" id="pieces"></div>
+        <div class="kl-gate" aria-hidden="true">🚪 华容道口</div>
+      </div>
+      <p class="kl-msg" id="msg">拖一拖木块：把 曹操 送到底下的出口</p>
+      <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+    </div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnUndo" title="撤销一步">↶<span>撤销</span><b id="undoN">0</b></button>
+    <button class="tool" id="btnHint" title="走出最优的一步（扣 8 秒）">💡<span>提示</span><b id="hintN">0</b></button>
+    <button class="tool" id="btnPause" title="暂停 / 继续 (空格)">⏸<span>暂停</span></button>
+    <button class="tool" id="btnStats" title="本机战绩 (T)">📊<span>战绩</span></button>
+  </section>
+
+  <footer class="tips">
+    <p><b>拖动木块沿横竖挪格</b>，一格算一步，拖多远算多少步。<b>木块不能重叠、不能旋转、不能抬起来跨过去</b>——横刀立马那一局就是这么难的。</p>
+    <p><kbd>拖拽</kbd> 挪块 · <kbd>↑↓←→</kbd> 挪选中的块 · <kbd>Tab</kbd> 换块 · <kbd>空格</kbd> 暂停 · <kbd>H</kbd> 提示（扣 8 秒） · <kbd>U</kbd> 撤销 · <kbd>T</kbd> 战绩 —— 走的步数越接近「最优」，这一关分越高；时间清零就散场</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

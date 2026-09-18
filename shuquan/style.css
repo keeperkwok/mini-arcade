@@ -1,0 +1,154 @@
+/* 数圈专属样式：一张 4×4 ~ 8×8 的方格盘（骨架来自 ../shared/base.css）
+   行列数由 JS 写进 grid-template，所以换关换屏宽都不用动 CSS；
+   格子的三种状态（空 / 圈上 / 打叉）全靠类名表达 */
+:root { --accent: #34d399; --accent-2: #38bdf8; --app-width: 560px; }
+
+.board-wrap {
+  display: block;
+  padding: 18px 14px 10px;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(52, 211, 153, 0.12), transparent 58%),
+    linear-gradient(180deg, #0d1512, #07090e);
+}
+
+/* 棋盘 */
+.sq-grid {
+  display: grid;
+  gap: 3px;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 7px;
+  border-radius: 12px;
+  background: rgba(148, 163, 184, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.14);
+  touch-action: manipulation;
+}
+.sq-cell {
+  position: relative;
+  border-radius: 5px;
+  background: rgba(148, 163, 184, 0.07);
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.1s, box-shadow 0.12s, border-color 0.12s, transform 0.08s;
+}
+.sq-cell:hover { border-color: rgba(52, 211, 153, 0.5); }
+.sq-cell:active { transform: scale(0.94); }
+
+/* 圈上：一块亮起的格子，中间一个白点 = 圈经过这里 */
+.sq-cell.on {
+  background: linear-gradient(160deg, rgba(52, 211, 153, 0.85), rgba(16, 185, 129, 0.7));
+  border-color: rgba(167, 243, 208, 0.9);
+  box-shadow: 0 0 0 1px rgba(52, 211, 153, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+.sq-cell.on::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 34%;
+  height: 34%;
+  margin: -17% 0 0 -17%;
+  border-radius: 50%;
+  background: #f8fefb;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+/* 打叉：确定不在圈上 */
+.sq-cell.mk {
+  background: rgba(148, 163, 184, 0.04);
+  border-color: rgba(148, 163, 184, 0.22);
+  border-style: dashed;
+}
+.sq-cell.mk::after {
+  content: '✕';
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  line-height: 1;
+  color: rgba(203, 213, 225, 0.6);
+}
+
+/* 数字：缩在角上，别挡着中间的圈点 */
+.sq-num {
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  z-index: 2;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0;
+  color: rgba(226, 232, 240, 0.92);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+.sq-cell.on .sq-num { color: #052e21; text-shadow: none; }
+.sq-cell.clue { border-color: rgba(56, 189, 248, 0.35); }
+
+/* 打结：圈上的格邻居数不是 2 */
+.sq-cell.knot {
+  background: linear-gradient(160deg, rgba(248, 113, 113, 0.9), rgba(185, 28, 28, 0.75));
+  border-color: rgba(254, 202, 202, 0.95);
+  box-shadow: 0 0 0 1px rgba(248, 113, 113, 0.6), 0 0 10px rgba(248, 113, 113, 0.35);
+  animation: sq-shake 0.22s ease-out;
+}
+@keyframes sq-shake {
+  0% { transform: translateX(0); }
+  35% { transform: translateX(-2px); }
+  70% { transform: translateX(2px); }
+  100% { transform: translateX(0); }
+}
+/* 数字对不上：格子边缘泛红 */
+.sq-cell.err {
+  border-color: rgba(251, 191, 36, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.5);
+}
+.sq-cell.err .sq-num { color: #fbbf24; }
+.sq-cell.on.err .sq-num { color: #7c2d12; }
+
+/* 提示揭示过的格 + 键盘光标 */
+.sq-cell.rev::before {
+  content: '✦';
+  position: absolute;
+  right: 2px;
+  top: 0;
+  z-index: 2;
+  font-size: 10px;
+  line-height: 1.5;
+  color: rgba(56, 189, 248, 0.95);
+  pointer-events: none;
+}
+.sq-cell.cur { box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.8); z-index: 1; }
+/* 过关瞬间整盘亮一下 */
+.sq-grid.win .sq-cell.on { animation: sq-win 0.5s ease-out; }
+@keyframes sq-win {
+  0% { filter: brightness(1); }
+  40% { filter: brightness(1.6); }
+  100% { filter: brightness(1); }
+}
+
+/* 图例与提示语 */
+.sq-legend {
+  margin: 10px auto 0;
+  max-width: 440px;
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: var(--muted, #94a3b8);
+}
+.sq-legend .lg { padding: 0 5px; border-radius: 4px; font-weight: 700; }
+.sq-legend .lg.on { background: rgba(52, 211, 153, 0.8); color: #052e21; }
+.sq-legend .lg.mk { border: 1px dashed rgba(148, 163, 184, 0.5); color: rgba(203, 213, 225, 0.85); }
+.sq-msg { min-height: 1.5em; margin: 6px auto 0; max-width: 440px; }
+.sq-msg .sq-warn { color: #fbbf24; }
+.sq-msg .sq-bad { color: #f87171; }
+.sq-msg .sq-good { color: #34d399; }
+
+/* 遮罩里的小表格 */
+.sq-ov { display: grid; gap: 6px; margin: 12px 0 4px; }
+.sq-ov p { margin: 0; font-size: 13px; color: var(--muted, #94a3b8); }
+.sq-ov b { color: #f1f5f9; }

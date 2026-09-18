@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>24 点速算 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 520px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🧮</a>
+    <div class="title">
+      <h1>24 点速算</h1>
+      <p class="sub">DIAN 24 · 四个数三步合，剩一个正好是它</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重开一局" aria-label="重开一局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="easy">慢慢算</button>
+    <button data-diff="std">标准局</button>
+    <button data-diff="rush">抢答赛</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">第几题</span><span class="value info" id="lv">1</span></div>
+    <div class="chip"><span class="label">目标</span><span class="value info" id="goal">24</span></div>
+    <div class="chip"><span class="label">连击</span><span class="value" id="combo">×1</span></div>
+    <div class="chip"><span class="label">剩余</span><span class="value warn" id="clock">0:00</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value" id="score">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <div class="pt-cards" id="cards" aria-label="手上的数字牌"></div>
+      <div class="pt-ops" id="ops" aria-label="运算符">
+        <button data-op="add">＋</button>
+        <button data-op="sub">－</button>
+        <button data-op="mul">×<small>两数任意先后</small></button>
+        <button data-op="div">÷<small>两数任意先后</small></button>
+      </div>
+      <p class="pt-msg" id="msg">点两张牌，再点一个运算符：三个数以内就合不出来了</p>
+      <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+    </div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnUndo" title="撤销上一次合并">↶<span>撤销</span><b id="undoN">0</b></button>
+    <button class="tool" id="btnHint" title="给出一步正解（扣时间）">💡<span>提示</span><b id="hintN">0</b></button>
+    <button class="tool" id="btnSkip" title="换一题（断开连击）">🔁<span>换题</span><b id="skipN">0</b></button>
+    <button class="tool" id="btnPause" title="暂停 / 继续 (空格)">⏸<span>暂停</span></button>
+    <button class="tool" id="btnStats" title="本机战绩 (T)">📊<span>战绩</span></button>
+  </section>
+
+  <footer class="tips">
+    <p><b>每次挑两张牌配一个运算符，合成一张新牌</b>：四张 → 三张 → 两张 → 一张，最后那张正好等于目标就过关。<b>中间值可以是分数</b>（8÷(3−8÷3)＝24 就靠它），除零不算。</p>
+    <p><kbd>1-4</kbd> 选牌 · <kbd>+-*/</kbd> 直接开算 · <kbd>Enter</kbd> 出牌 · <kbd>U</kbd> 撤销 · <kbd>H</kbd> 提示 · <kbd>R</kbd> 换题 · <kbd>空格</kbd> 暂停 · <kbd>T</kbd> 战绩 —— 合到算不出目标的那一步会被判「算死了」，只能撤销或换题</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

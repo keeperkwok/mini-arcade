@@ -1,0 +1,56 @@
+/* 跳一跳专属样式：一块 480×420 的横版场地，力度条是纯 DOM 宽度百分比，
+   蓄力时画布上的棋子做 squash（缩放写在 canvas 里，不动 DOM） */
+:root { --accent: #34d399; --accent-2: #fbbf24; --app-width: 560px; }
+
+.board-wrap {
+  display: block;
+  padding: 12px;
+  background:
+    radial-gradient(circle at 22% 12%, rgba(52, 211, 153, 0.16), transparent 60%),
+    linear-gradient(180deg, #0f1a1f, #06080d);
+}
+canvas {
+  display: block;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  border-radius: 10px;
+  background: #0b1018;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16);
+  cursor: pointer;
+  touch-action: none;
+}
+.ty-bar {
+  position: relative;
+  height: 14px;
+  margin: 10px auto 0;
+  max-width: 480px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.18);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.2);
+}
+.ty-fill {
+  display: block;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #34d399, #fbbf24 62%, #f87171);
+  transition: width 0.05s linear;
+}
+.ty-bar-t {
+  position: absolute;
+  inset: 0;
+  font-size: 10.5px;
+  line-height: 14px;
+  text-align: center;
+  color: #062018;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.ty-msg { margin: 10px 2px 0; min-height: 22px; font-size: 13.5px; color: var(--muted); text-align: center; }
+.ty-msg b { color: var(--text); }
+.ty-msg .ty-good { color: var(--emerald); }
+.ty-msg .ty-warn { color: var(--amber); }
+.ty-msg .ty-bad { color: var(--rose); }
+.ty-ov { display: grid; gap: 6px; font-size: 13.5px; color: var(--muted); }
+.ty-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; justify-content: center; margin: 8px 0 2px; font-size: 13px; color: var(--muted); }

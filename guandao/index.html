@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>接根水管 · 网页小游戏</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+<link rel="stylesheet" href="../shared/base.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<main class="app" style="--app-width: 620px">
+  <header class="top">
+    <a class="logo home" href="../index.html" title="返回主页" aria-label="返回主页">🔧</a>
+    <div class="title">
+      <h1>接根水管</h1>
+      <p class="sub">JIE GEN SHUI GUAN · 水已经在流，边漏边接</p>
+    </div>
+    <div class="actions">
+      <button id="btnSound" class="icon-btn" title="声音开关" aria-label="声音开关">🔊</button>
+      <button id="btnNew" class="icon-btn" title="重开一局" aria-label="重开一局">↻</button>
+    </div>
+  </header>
+
+  <section class="diff" id="diff" aria-label="难度选择">
+    <button data-diff="slow">慢条斯理</button>
+    <button data-diff="norm">标准水压</button>
+    <button data-diff="rush">高压冲刺</button>
+  </section>
+
+  <section class="stats">
+    <div class="chip"><span class="label">第几关</span><span class="value info" id="lv">1</span></div>
+    <div class="chip"><span class="label">余水</span><span class="value warn" id="clock">0:00</span></div>
+    <div class="chip"><span class="label">漏水</span><span class="value bad" id="leaks">0</span></div>
+    <div class="chip"><span class="label">通水</span><span class="value good" id="wet">0</span></div>
+    <div class="chip"><span class="label">分数</span><span class="value" id="score">0</span></div>
+  </section>
+
+  <section class="board-outer">
+    <div class="board-wrap">
+      <div class="gd-board" id="board" role="grid" aria-label="水管盘"></div>
+      <p class="gd-msg" id="msg">点一下管子转 90°，右键反转。水不停漏，时间就狂掉。</p>
+      <div id="overlay" class="overlay"><div id="overlayContent" class="overlay-content"></div></div>
+    </div>
+  </section>
+
+  <section class="tools" aria-label="操作">
+    <button class="tool" id="btnPause" title="暂停 / 继续 (空格)">⏸<span>暂停</span></button>
+    <button class="tool" id="btnHint" title="提示一格 (H)">💡<span>提示</span></button>
+    <button class="tool" id="btnMix" title="重排本关（扣 6 秒）">🔀<span>重排</span></button>
+    <button class="tool" id="btnStats" title="本机战绩 (T)">📊<span>战绩</span></button>
+  </section>
+
+  <footer class="tips">
+    <p><b>水从左边 💧 进来，从右边 🚿 出去就通</b>。管子只许转方向不许挪位置；<b>接口对不上就是漏水</b>，
+    漏一处时间双倍掉，漏三处基本就告别这关了</p>
+    <p><kbd>点击</kbd> 顺时针转 · <kbd>右键</kbd> 逆时针 · <kbd>← ↑ ↓ →</kbd> 移动光标 · <kbd>回车</kbd> 转 ·
+    <kbd>H</kbd> 提示 · <kbd>R</kbd> 重排 · <kbd>空格</kbd> 暂停 · <kbd>T</kbd> 战绩 · <kbd>M</kbd> 静音</p>
+  </footer>
+</main>
+
+<script src="../shared/sfx.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
